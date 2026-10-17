@@ -1,0 +1,9 @@
+**/bin/
+**/obj/
+.dotnet/
+artifacts/
+
+# Lokale IDE-Einstellungen
+.vs/
+*.user
+*.suo

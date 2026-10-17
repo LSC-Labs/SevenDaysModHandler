@@ -1,0 +1,70 @@
+using SevenDaysModManager;
+var root = Path.Combine(Path.GetTempPath(), "SevenDaysTests-" + Guid.NewGuid().ToString("N"));
+void Check(bool condition, string message) { if (!condition) throw new Exception(message); Console.WriteLine("OK: " + message); }
+void Reject(Action action, string message) { try { action(); } catch (IOException) { Console.WriteLine("OK: " + message); return; } throw new Exception(message); }
+try
+{
+    var s = new Settings { SavesPath = Path.Combine(root, "Saves"), BackupPath = Path.Combine(root, "Backups"), GamePath = Path.Combine(root, "Game") };
+    Check(new Settings().BackupPath == Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "7Days-ModManager", "Backups"), "Backupstandard liegt im lokalen Anwendungsordner");
+    Manager.EnsureBackupAccess(s);
+    Check(Directory.GetFileSystemEntries(s.BackupPath).Length == 0, "Zugriffstest prüft Schreiben und Umbenennen ohne Rückstände");
+    var blocked = Path.Combine(root, "blocked"); File.WriteAllText(blocked, "not a directory");
+    var invalid = new Settings { SavesPath = s.SavesPath, BackupPath = blocked };
+    Reject(() => Manager.EnsureBackupAccess(invalid), "Unbeschreibbarer Backupordner wird vor dem Backup erkannt");
+    Reject(() => Manager.PrepareBackupLocation(invalid), "Benutzerdefinierter gesperrter Pfad wird nicht automatisch ersetzt");
+    Check(invalid.BackupPath == blocked, "Benutzerdefinierter Backupordner bleibt erhalten");
+    Directory.CreateDirectory(Path.Combine(s.SavesPath, "World", "Session"));
+    var save = Path.Combine(s.SavesPath, "World", "Session", "main.ttw");
+    File.WriteAllText(save, "original");
+    var first = Manager.Backup(s);
+    Check(File.ReadAllText(Path.Combine(first, "Saves", "World", "Session", "main.ttw")) == "original", "Vollständiges verschachteltes Backup");
+    File.WriteAllText(save, "changed"); File.WriteAllText(Path.Combine(s.SavesPath, "obsolete"), "extra");
+    Manager.Restore(s, first);
+    Check(File.ReadAllText(save) == "original" && !File.Exists(Path.Combine(s.SavesPath, "obsolete")), "Wiederherstellung ersetzt aktuellen Stand vollständig");
+    Check(Manager.Backups(s).Any(p => File.ReadAllText(Path.Combine(p, "Saves", "World", "Session", "main.ttw")) == "changed"), "Sicherheitsbackup vor Wiederherstellung");
+    Directory.CreateDirectory(Path.Combine(s.BackupPath, "broken.partial"));
+    Check(Manager.Backups(s).Length == 2, "Unvollständige Backups werden ignoriert");
+    Reject(() => Manager.Restore(s, root), "Fremde Ordner werden nicht wiederhergestellt");
+    Reject(() => Manager.Backup(new Settings { SavesPath = s.SavesPath, BackupPath = Path.Combine(s.SavesPath, "Backups") }), "Überlappende Pfade werden abgewiesen");
+    Directory.CreateDirectory(s.GamePath); File.WriteAllText(Path.Combine(s.GamePath, "7DaysToDie.exe"), "test");
+    var mod = Path.Combine(s.GamePath, "Mods-Store", "Example"); Directory.CreateDirectory(mod);
+    File.WriteAllText(Path.Combine(mod, "ModInfo.xml"), "<xml><Name value='Example'/><DisplayName value='Beispiel'/><Version value='1.2'/><Description value='Beschreibung'/><Website value='https://example.com'/></xml>");
+    var m = Manager.Mods(s.GamePath).Single();
+    Check(m.Name == "Beispiel" && m.Version == "1.2" && m.Website == "https://example.com" && !m.Active, "ModInfo V2 lesen");
+    Manager.Toggle(s.GamePath, m); m = Manager.Mods(s.GamePath).Single(); Check(m.Active, "Mod aktivieren");
+    Directory.CreateDirectory(mod); Reject(() => Manager.Toggle(s.GamePath, m), "Namenskollision überschreibt nichts"); Directory.Delete(mod);
+    Manager.Toggle(s.GamePath, m); Check(!Manager.Mods(s.GamePath).Single().Active, "Mod deaktivieren");
+    File.WriteAllText(Path.Combine(mod, "ModInfo.xml"), "<xml><ModInfo><Name value='Legacy'/><Version value='0.9'/></ModInfo></xml>");
+    Check(Manager.Mods(s.GamePath).Single().Name == "Legacy", "Legacy-Metadaten lesen");
+    File.WriteAllText(Path.Combine(mod, "ModInfo.xml"), "broken");
+    Check(Manager.Mods(s.GamePath).Single().Description.Contains("nicht gelesen"), "Defekte Metadaten blockieren die Liste nicht");
+    var second = Path.Combine(s.GamePath, "Mods-Store", "Second"); Directory.CreateDirectory(second);
+    File.WriteAllText(Path.Combine(second, "payload"), "second-content");
+    var groupA = new ModGroup { Name = "Gruppe A", GamePath = s.GamePath, Folders = ["Example"] };
+    var groupB = new ModGroup { Name = "Gruppe B", GamePath = s.GamePath, Folders = ["Second"] };
+    var persisted = System.Text.Json.JsonSerializer.Deserialize<Settings>(System.Text.Json.JsonSerializer.Serialize(new Settings { Groups = [groupA, groupB] }))!;
+    Check(persisted.Groups.Count == 2 && persisted.Groups[0].Folders.Single() == "Example", "Gruppennamen und Mitgliedschaften werden serialisiert");
+    Manager.SetGroup(s.GamePath, groupA, true);
+    Check(Manager.Mods(s.GamePath).Single(m => m.Active).Folder.EndsWith("Example"), "Gruppe A aktiviert nur ihre Mitglieder");
+    Manager.SetGroup(s.GamePath, groupB, true);
+    Check(Manager.Mods(s.GamePath).Single(m => m.Active).Folder.EndsWith("Second") && Directory.Exists(mod), "Wechsel zu B deaktiviert Mods außerhalb der Gruppe");
+    Manager.SetGroup(s.GamePath, groupB, true);
+    Check(Manager.Mods(s.GamePath).Count(m => m.Active) == 1, "Erneutes Aktivieren einer Gruppe ist möglich");
+    Manager.SetGroup(s.GamePath, groupA, false);
+    Check(Manager.Mods(s.GamePath).Single(m => m.Active).Folder.EndsWith("Second"), "Deaktivierung lässt fremde aktive Mods unverändert");
+    Manager.SetGroup(s.GamePath, groupB, false);
+    Check(Manager.Mods(s.GamePath).All(m => !m.Active), "Gruppe deaktivieren");
+    Manager.SetGroup(s.GamePath, groupA, true);
+    Reject(() => Manager.SetGroup(s.GamePath, new ModGroup { Name = "Fehlend", GamePath = s.GamePath, Folders = ["Missing"] }, true), "Fehlendes Gruppenmitglied verhindert Wechsel");
+    Check(Manager.Mods(s.GamePath).Single(m => m.Active).Folder.EndsWith("Example"), "Fehlgeschlagene Vorprüfung lässt aktiven Stand unverändert");
+    Directory.CreateDirectory(Path.Combine(s.GamePath, "Mods", "Second"));
+    Reject(() => Manager.SetGroup(s.GamePath, groupB, true), "Gruppenwechsel prüft Kollisionen vor dem ersten Verschieben");
+    Check(Directory.Exists(Path.Combine(s.GamePath, "Mods", "Example")), "Kollision deaktiviert keine bisherigen Mods");
+    Directory.Delete(Path.Combine(s.GamePath, "Mods", "Second"));
+    Manager.SetGroup(s.GamePath, new ModGroup { Name = "Leer", GamePath = s.GamePath }, true);
+    Check(Manager.Mods(s.GamePath).All(m => !m.Active), "Leere Gruppe deaktiviert alle Mods");
+    Check(File.ReadAllText(Path.Combine(second, "payload")) == "second-content", "Gruppenwechsel erhält Moddateien");
+    Reject(() => Manager.SetGroup(s.GamePath, new ModGroup { GamePath = root }, true), "Gruppe einer anderen Installation wird abgewiesen");
+    Console.WriteLine("Alle Integrationstests erfolgreich.");
+}
+finally { if (Directory.Exists(root)) Directory.Delete(root, true); }

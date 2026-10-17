@@ -33,3 +33,5 @@ Sortierung Modliste: alle Spalten Programmatic; ColumnHeaderMouseClick wechselt 
 Anwendungssymbol: SevenDaysModManager/game.ico aus der lokalen D:/SteamLibrary/steamapps/common/7 Days To Die/7DaysToDie.exe extrahiert. ApplicationIcon im Projekt bindet es in die EXE ein; MainForm übernimmt es via ExtractAssociatedIcon. Build benötigt keine installierte Spielkopie. Status und Aktion: Zelltexte und Spaltenüberschriften MiddleCenter, Statusfarben und Button-Padding bleiben erhalten.
 
 Versionsverwaltung: lokales Git-Repository im Projektstamm, Hauptbranch main. Quellcode, Tests, game.ico, Skripte und Dokumentation versionieren; bin/obj, artifacts, .dotnet und lokale IDE-Einstellungen bleiben ausgeschlossen.
+
+GitHub-Veröffentlichung: Ziel LSC-Labs/SevenDaysModHandler (öffentlich), Remote-Name external. Erste Version v1.0.0 als eigenständiger win-x64-Release mit .NET-Laufzeit, ZIP und SHA256SUMS.txt; Release-Text in RELEASE_NOTES.md. README für Download, Bedienung und Entwicklung überarbeitet.

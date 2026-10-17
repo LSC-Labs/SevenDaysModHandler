@@ -1,62 +1,98 @@
-# 7 Days to Die – Mod Handler
+# SevenDaysModHandler
 
-Windows-Anwendung mit deutscher Windows-Forms-Oberfläche auf .NET 10 (modernes .NET, Nachfolger von .NET Core), ohne zusätzliche NuGet-Pakete.
+Eine deutschsprachige Windows-Anwendung zum Sichern von Spielständen und Verwalten von Mods für **7 Days to Die**. Entwickelt mit C# und Windows Forms auf .NET 10.
 
-## Starten
+## Download und Start
 
-`Start.cmd` startet die fertige Anwendung aus `artifacts/app`. Voraussetzung: .NET 10 Desktop Runtime für Windows x64. Alternativ mit installiertem SDK:
+Die aktuelle Anwendung steht unter **[GitHub Releases](https://github.com/LSC-Labs/SevenDaysModHandler/releases/latest)** bereit.
 
+1. `SevenDaysModHandler-1.0.0-win-x64.zip` herunterladen.
+2. Das ZIP vollständig in einen eigenen Ordner entpacken.
+3. `SevenDaysModManager.exe` starten.
+4. Unter **Einstellungen** Spiel-, Spielstand- und Backupordner prüfen und speichern.
+
+Der Release-Download enthält die .NET-Laufzeit. Eine zusätzliche .NET-Installation ist nicht erforderlich. Benötigt wird ein von .NET 10 unterstütztes Windows auf x64. Die Anwendung benötigt keine Installation.
+
+## Funktionen
+
+- **Spielstand sichern:** Kopiert den gesamten konfigurierten Spielstandordner in einen Backupordner mit UTC-Datum und Uhrzeit. Das Format `2026-10-17T12-30-00.1234567Z` verwendet Windows-kompatible Bindestriche statt Doppelpunkten.
+- **Backup wiederherstellen:** Erstellt vorher ein Sicherheitsbackup und ersetzt anschließend den aktuellen Spielstandordner durch das ausgewählte Backup. Unvollständige Backups werden nicht angeboten.
+- **Mods aktivieren und deaktivieren:** Verschiebt vollständige Modordner zwischen `<Spiel>\Mods` und `<Spiel>\Mods-Store`. Vorhandene Zielordner werden nicht überschrieben.
+- **Modinformationen:** Zeigt Name, Version, Beschreibung und anklickbare Webseite aus `ModInfo.xml`. Alte und neue Metadatenformate werden unterstützt.
+- **Modgruppen:** Speichert benannte Zusammenstellungen für die jeweilige Spielinstallation. Beim Aktivieren werden genau deren Mods aktiviert und alle übrigen deaktiviert. Beim Deaktivieren werden nur die Mods dieser Gruppe deaktiviert.
+- **Sortierbare Modliste:** Klick auf den Spaltenkopf wechselt die Sortierrichtung. Aktive Mods haben eine hellgrüne Statuszelle.
+- **Steam-Suche:** Sucht beim ersten Start nach Installationen in Steam-Bibliotheken auf verfügbaren festen Laufwerken, einschließlich der Einträge in `libraryfolders.vdf`. Sonderinstallationen können manuell ausgewählt werden.
+
+## Mods und Gruppen verwenden
+
+Entpackte Mods in folgender Struktur ablegen:
+
+```text
+<Spiel>\Mods-Store\MeinMod\ModInfo.xml
 ```
-dotnet run --project SevenDaysModManager
+
+Auf **Mods** schaltet der Button **Aktivieren/Deaktivieren** den jeweiligen Mod um. Webseiten werden im Standardbrowser geöffnet.
+
+Auf **Modgruppen** eine neue Gruppe anlegen, einen Namen eingeben, Mitglieder anhaken und **Gruppe speichern** wählen. Ein Mod darf mehreren Gruppen angehören. Änderungen vor dem Aktivieren speichern. Das Aktivieren einer leeren Gruppe deaktiviert nach Rückfrage alle Mods. Das Löschen einer Gruppe verändert keine Moddateien.
+
+Fehlende Gruppenmods und Zielkollisionen verhindern die Aktivierung vor dem ersten Verschieben. Bei Fehlern während eines Gruppenwechsels versucht die Anwendung bereits verschobene Mods zurückzusetzen.
+
+## Einstellungen und Speicherorte
+
+| Inhalt | Standardpfad |
+| --- | --- |
+| Einstellungen und Modgruppen | `%LOCALAPPDATA%\7Days-ModManager\settings.json` |
+| Backups | `%LOCALAPPDATA%\7Days-ModManager\Backups` |
+| Spielstände | `%APPDATA%\7DaysToDie\Saves` |
+
+Die Pfade können unter **Einstellungen** geändert werden. Der Backupordner wird auf Lese- und Schreibzugriff geprüft. Ein nicht zugänglicher alter Documents-Standardpfad wird mit Hinweis auf den aktuellen Standard umgestellt; vorhandene Backups bleiben am bisherigen Ort.
+
+## Umfang und Hinweise
+
+- Spiel und Dedicated Server vor Backup, Wiederherstellung oder Modwechsel beenden und während des Vorgangs geschlossen lassen. Die Anwendung prüft die üblichen Prozessnamen.
+- Ein Backup umfasst ausschließlich den gewählten Spielstandordner. Externe generierte Weltdaten, Spielinstallation und Mods sind nicht enthalten.
+- Verwaltet werden Mods im gewählten Spielordner. Mods unter `%APPDATA%\7DaysToDie\Mods` bleiben unverändert.
+- Wiederherstellen ersetzt den gesamten Spielstandordner, einschließlich aller enthaltenen Welten und Sitzungen.
+- Verknüpfte Ordner/Dateien werden bei Backup- und Modoperationen aus Sicherheitsgründen nicht unterstützt.
+- Die Anwendung prüft keine Kompatibilität von Mods untereinander oder mit der Spielversion.
+
+## Selbst bauen
+
+Voraussetzungen: Windows und das **.NET 10 SDK**.
+
+```powershell
+git clone https://github.com/LSC-Labs/SevenDaysModHandler.git
+cd SevenDaysModHandler
+.\build.cmd
+.\Start.cmd
 ```
 
-## Bedienung
+`build.cmd` erstellt die Release-Ausgabe unter `artifacts\app`. Diese lokale Ausgabe benötigt die .NET 10 Desktop Runtime. Die Anwendung vor einem erneuten Build schließen.
 
-- Unter Einstellungen Spielordner, Spielstandordner und Backupordner auswählen und speichern. Beim ersten Start wird Steam automatisch durchsucht. Mehrere Installationen können ausgewählt werden.
-- Standard-Spielstände: `%APPDATA%\7DaysToDie\Saves`. Bei abweichenden Server-/Benutzerprofilen diesen Ordner anpassen.
-- Standard-Backups: `%LOCALAPPDATA%\7Days-ModManager\Backups`. Der Zugriff wird durch Schreiben und Umbenennen eines temporären Testordners geprüft. Ein gesperrter alter Documents-Standardpfad wird beim Start automatisch auf den neuen Standard umgestellt und gespeichert; vorhandene Backups bleiben am alten Ort. Benutzerdefinierte Pfade werden nicht automatisch geändert.
-- Backup erstellen kopiert den gesamten Spielstandordner, einschließlich aller Welten und Sitzungen. Datum und Uhrzeit stehen in UTC im ISO-8601-abgeleiteten, Windows-kompatiblen Format `2026-10-17T12-30-00.1234567Z`. Doppelpunkte sind in Windows-Ordnernamen unzulässig, deshalb werden Bindestriche verwendet.
-- Nur vollständig erstellte Backups erscheinen in der Liste. Wiederherstellen ersetzt den gesamten konfigurierten Spielstandordner, nach einer Rückfrage und einem automatischen Sicherheitsbackup. Kopieren erfolgt zunächst in einen temporären Ordner; erst danach wird der Spielstand ausgetauscht.
-- Entpackte Mods unter `<Spiel>\Mods-Store\<Modname>\ModInfo.xml` ablegen. Die Liste zeigt aktive und inaktive Mods mit Name, Version, Beschreibung und anklickbarer Webseite. Der Aktionsbutton verschiebt den vollständigen Ordner nach `Mods` bzw. zurück nach `Mods-Store`.
-- Vorhandene Zielordner werden niemals überschrieben. Fehlende oder fehlerhafte ModInfo-Dateien werden in der Liste kenntlich gemacht. Alte und neue ModInfo-Strukturen werden gelesen. Nur HTTP-/HTTPS-Links werden im Standardbrowser geöffnet.
-- Spiel und Dedicated Server vor Backup, Wiederherstellung oder Modwechsel schließen. Die Anwendung prüft die üblichen Prozessnamen; das Spiel während der Vorgänge nicht starten.
+Eigenständigen Windows-x64-Download mit enthaltener Laufzeit bauen:
 
-Gesichert werden die Inhalte des gewählten Saves-Ordners. Externe generierte Weltdaten, Spielinstallation und Mods sind nicht Teil dieser Sicherung. Benutzerprofil-Mods unter `%APPDATA%\7DaysToDie\Mods` werden nicht verwaltet. Ordnerverknüpfungen werden bei Dateioperationen abgewiesen.
-
-## Gespeicherte Einstellungen
-
-`%LOCALAPPDATA%\7Days-ModManager\settings.json` enthält GamePath, SavesPath und BackupPath. Änderungen mit „Einstellungen speichern“ bestätigen. Ein automatisch gefundenes Spiel wird ebenfalls gespeichert. Defekte Einstellungsdateien erzeugen einen Hinweis und können durch erneutes Speichern ersetzt werden.
-
-## Entwicklung und Prüfung
-
+```powershell
+dotnet publish SevenDaysModManager -c Release -r win-x64 --self-contained true -p:Version=1.0.0 -o artifacts/release/win-x64
 ```
-dotnet build SevenDaysModManager -c Release
+
+## Tests und Projektstruktur
+
+```powershell
 dotnet run --project Tests -c Release
-dotnet publish SevenDaysModManager -c Release -o artifacts/app --no-self-contained
 ```
 
-Die Integrationstests arbeiten ausschließlich mit temporären Dateien. Sie prüfen Backup, vollständige Wiederherstellung, Sicherheitsbackup, Pfadüberlappung, Backupauswahl, ModInfo-Versionen, Modwechsel und Kollisionsschutz.
+Die Integrationstests verwenden eigene temporäre Dateien und prüfen Backups, Wiederherstellung, Sicherheitsbackup, Pfadprüfungen, Modmetadaten, Modwechsel, Gruppenwechsel und Kollisionsschutz. Die interaktive GUI-Abnahme erfolgt separat.
 
-Steam-Suche: Registry SteamPath, übliche Steam-/SteamLibrary-Verzeichnisse auf allen festen verfügbaren Laufwerken, Bibliotheken direkt im Laufwerksstamm sowie in libraryfolders.vdf eingetragene Bibliotheken. Sonderinstallationen können manuell ausgewählt werden.
+| Datei/Ordner | Inhalt |
+| --- | --- |
+| `SevenDaysModManager/Program.cs` | Hauptfenster und Modliste |
+| `SevenDaysModManager/Groups.cs` | Oberfläche für Modgruppen |
+| `SevenDaysModManager/Services.cs` | Einstellungen, Steam-Suche und Dateioperationen |
+| `Tests/` | Integrationstests ohne externe Testpakete |
+| `build.cmd`, `Start.cmd` | Lokales Bauen und Starten |
 
-Metadatenformat: https://community.thefunpimps.com/threads/what-is-the-new-layout-for-modinfo-xml-v2.32514/
+## Spielbezug
 
+Dieses Projekt ist ein unabhängiges Hilfsprogramm für 7 Days to Die. Das Anwendungssymbol wurde aus der lokal installierten `7DaysToDie.exe` übernommen; Spielname und Symbol gehören den jeweiligen Rechteinhabern (The Fun Pimps).
 
-Zum erneuten Bauen im Projektordner `build.cmd` ausführen. Das Skript benötigt das .NET 10 SDK und aktualisiert die Release-Ausgabe in `artifacts\app`, die von `Start.cmd` gestartet wird. Die Anwendung vorher schließen. Bei Fehlern liefert das Skript einen Fehlercode zurück.
-
-
-## Modgruppen
-
-Auf der Seite „Modgruppen“ mit „Neue Gruppe“ beginnen, einen Namen eingeben, Mods anhaken und „Gruppe speichern“ wählen. Eine gespeicherte Gruppe kann zum Bearbeiten ausgewählt, umbenannt oder gelöscht werden. Löschen ändert keine Moddateien. Ein Mod darf mehreren Gruppen angehören.
-
-„Gruppe aktivieren“ aktiviert genau die gespeicherten Mitglieder und deaktiviert alle anderen Mods im Spielordner. „Gruppe deaktivieren“ deaktiviert nur deren Mitglieder und lässt andere Mods unverändert. Änderungen an Name und Auswahl vor dem Umschalten speichern. Eine leere Gruppe deaktiviert nach Rückfrage alle Mods.
-
-Gruppen sind an die jeweilige Spielinstallation gebunden und werden mit ihren Modordnernamen in `%LOCALAPPDATA%\7Days-ModManager\settings.json` gespeichert. Fehlende Gruppenmods bleiben im Editor als „fehlt“ sichtbar. Aktivieren wird bei fehlenden Mitgliedern oder Zielkollisionen vor dem ersten Verschieben abgebrochen. Bei Fehlern während des Wechsels werden bereits verschobene Mods zurückgesetzt; schlägt auch das fehl, erscheint ein ausdrücklicher Hinweis.
-
-In der Modliste wird die Statuszelle „Aktiv“ hellgrün hinterlegt, auch bei ausgewählter Zeile.
-
-Die Modliste hebt ausgewählte Zeilen nicht farblich hervor. Aktivieren/Deaktivieren wird als umrandete Schaltfläche angezeigt; der aktive Status bleibt hellgrün.
-
-Die Modliste lässt sich über jeden Spaltenkopf auf- und absteigend sortieren. Ein Pfeil zeigt die Richtung; die Sortierung bleibt beim Aktualisieren und Modwechsel während der Sitzung erhalten. Numerische Versionsangaben werden nach Versionsnummer sortiert. Die Aktionsbuttons verwenden die native Windows-Darstellung für Hover- und Druckzustände.
-
-Die Anwendung verwendet das Symbol der lokal installierten 7DaysToDie.exe (The Fun Pimps); es ist als game.ico im Projekt enthalten. Status und Aktion sind in der Modliste zentriert.
+Das unterstützte ModInfo-Format ist im [Entwicklerforum von The Fun Pimps](https://community.thefunpimps.com/threads/what-is-the-new-layout-for-modinfo-xml-v2.32514/) beschrieben.

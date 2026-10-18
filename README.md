@@ -1,67 +1,69 @@
 # SevenDaysModHandler
 
-Eine mehrsprachige Windows-Anwendung zum Sichern von Spielständen und Verwalten von Mods für **7 Days to Die**. Entwickelt mit C# und Windows Forms auf .NET 10.
+English | [Deutsch](README.de.md)
 
-## Download und Start
+A multilingual Windows application for backing up saves and managing mods for **7 Days to Die**. Built with C# and Windows Forms on .NET 10.
 
-Die aktuelle Anwendung steht unter **[GitHub Releases](https://github.com/LSC-Labs/SevenDaysModHandler/releases/latest)** bereit.
+## Download and launch
 
-1. `SevenDaysModHandler-1.0.0-win-x64.zip` herunterladen.
-2. Das ZIP vollständig in einen eigenen Ordner entpacken.
-3. `SevenDaysModManager.exe` starten.
-4. Unter **Einstellungen** Spiel-, Spielstand- und Backupordner prüfen und speichern.
+The latest application is available from **[GitHub Releases](https://github.com/LSC-Labs/SevenDaysModHandler/releases/latest)**.
 
-Der Release-Download enthält die .NET-Laufzeit. Eine zusätzliche .NET-Installation ist nicht erforderlich. Benötigt wird ein von .NET 10 unterstütztes Windows auf x64. Die Anwendung benötigt keine Installation.
+1. Download `SevenDaysModHandler-1.0.0-win-x64.zip`.
+2. Extract the entire ZIP into its own folder.
+3. Run `SevenDaysModManager.exe`.
+4. In **Settings**, check and save the game, saves, and backup folders.
 
-## Funktionen
+The release download includes the .NET runtime. No separate .NET installation is required. You need an x64 version of Windows supported by .NET 10. The application requires no installation.
 
-- **Spiel starten:** Zwei große Buttons oberhalb der Registerkarten starten die gewählte Installation ohne EAC (für Mods) oder mit Easy Anti-Cheat. Der Start erfolgt über `7DaysToDie.exe` beziehungsweise `7DaysToDie_EAC.exe`. Beide Varianten behalten die aktive Modauswahl bei; EAC ist kein Schalter zum Deaktivieren von Mods. Für einen Start ohne eigene Mods diese vorher in der Modverwaltung deaktivieren. Fehlende Startprogramme und bereits laufendes Spiel/Server werden gemeldet.
-- **Spielstand sichern:** Kopiert den gesamten konfigurierten Spielstandordner in einen Backupordner mit UTC-Datum und Uhrzeit. Das Format `2026-10-17T12-30-00.1234567Z` verwendet Windows-kompatible Bindestriche statt Doppelpunkten.
-- **Backup wiederherstellen:** Erstellt vorher ein Sicherheitsbackup und ersetzt anschließend den aktuellen Spielstandordner durch das ausgewählte Backup. Unvollständige Backups werden nicht angeboten.
-- **Mods aktivieren und deaktivieren:** Verschiebt vollständige Modordner zwischen `<Spiel>\Mods` und `<Spiel>\Mods-Store`. Vorhandene Zielordner werden nicht überschrieben.
-- **Modinformationen:** Zeigt Name, Version, Beschreibung und anklickbare Webseite aus `ModInfo.xml`. Alte und neue Metadatenformate werden unterstützt.
-- **Modgruppen:** Speichert benannte Zusammenstellungen für die jeweilige Spielinstallation. Beim Aktivieren werden genau deren Mods aktiviert und alle übrigen deaktiviert. Beim Deaktivieren werden nur die Mods dieser Gruppe deaktiviert.
-- **Sortierbare Modliste:** Klick auf den Spaltenkopf wechselt die Sortierrichtung. Aktive Mods haben eine hellgrüne Statuszelle.
-- **Steam-Suche:** Sucht beim ersten Start nach Installationen in Steam-Bibliotheken auf verfügbaren festen Laufwerken, einschließlich der Einträge in `libraryfolders.vdf`. Sonderinstallationen können manuell ausgewählt werden.
+## Features
 
-## Mods und Gruppen verwenden
+- **Launch the game:** Two large buttons above the tabs launch the selected installation without EAC (for mods) or with Easy Anti-Cheat, using `7DaysToDie.exe` or `7DaysToDie_EAC.exe`, respectively. Both options preserve the active mod selection; EAC does not disable mods. To play without your own mods, deactivate them in the mod manager first. Missing executables and an already running game or server are reported.
+- **Back up saves:** Copies the entire configured saves folder into a backup folder named with the UTC date and time. The format `2026-10-17T12-30-00.1234567Z` uses Windows-compatible hyphens instead of colons.
+- **Restore a backup:** Creates a safety backup first, then replaces the current saves folder with the selected backup. Incomplete backups are excluded from the list.
+- **Activate and deactivate mods:** Moves entire mod folders between `<Game>\Mods` and `<Game>\Mods-Store`. Existing destination folders are never overwritten.
+- **Mod information:** Displays the name, version, description, and clickable website from `ModInfo.xml`. Both old and new metadata formats are supported.
+- **Mod groups:** Saves named mod selections for each game installation. Activating a group activates exactly its mods and deactivates all others. Deactivating a group affects only that group's mods.
+- **Sortable mod list:** Click a column header to change the sort direction. Active mods have a light green status cell.
+- **Steam search:** On first launch, searches for installations in Steam libraries on available fixed drives, including entries in `libraryfolders.vdf`. Other installations can be selected manually.
 
-Entpackte Mods in folgender Struktur ablegen:
+## Using mods and groups
+
+Place extracted mods in this structure:
 
 ```text
-<Spiel>\Mods-Store\MeinMod\ModInfo.xml
+<Game>\Mods-Store\MyMod\ModInfo.xml
 ```
 
-Auf **Mods** schaltet der Button **Aktivieren/Deaktivieren** den jeweiligen Mod um. Webseiten werden im Standardbrowser geöffnet.
+On the **Mods** tab, use **Activate/Deactivate** to toggle a mod. Websites open in the default browser.
 
-Auf **Modgruppen** eine neue Gruppe anlegen, einen Namen eingeben, Mitglieder anhaken und **Gruppe speichern** wählen. Ein Mod darf mehreren Gruppen angehören. Änderungen vor dem Aktivieren speichern. Das Aktivieren einer leeren Gruppe deaktiviert nach Rückfrage alle Mods. Das Löschen einer Gruppe verändert keine Moddateien.
+On the **Mod groups** tab, create a new group, enter a name, check its members, and select **Save group**. A mod can belong to multiple groups. Save changes before activating a group. Activating an empty group deactivates all mods after confirmation. Deleting a group does not change any mod files.
 
-Fehlende Gruppenmods und Zielkollisionen verhindern die Aktivierung vor dem ersten Verschieben. Bei Fehlern während eines Gruppenwechsels versucht die Anwendung bereits verschobene Mods zurückzusetzen.
+Missing group mods and destination conflicts prevent activation before any mods are moved. If switching groups fails, the application attempts to move any affected mods back.
 
-## Einstellungen und Speicherorte
+## Settings and storage locations
 
-Unter **Settings → Language** (Deutsch: **Einstellungen → Sprache**) stehen **English, Deutsch, Español, Italiano und Français** sowie **Automatisch (Systemsprache)** zur Verfügung. Standardmäßig folgt die Anwendung der Windows-Anzeigesprache; regionale Varianten wie Französisch (Kanada) werden unterstützt. Bei anderen Systemsprachen wird Englisch verwendet. Eine manuelle Auswahl hat Vorrang, wirkt sofort und wird für weitere Starts gespeichert. Die Texte der Oberfläche, Hinweise und anwendungseigenen Fehlermeldungen sind übersetzt. Modnamen, Modbeschreibungen und eigene Gruppennamen bleiben im Original.
+Under **Settings → Language**, choose **English, Deutsch, Español, Italiano, or Français**, or **Automatic (system language)**. By default, the application follows the Windows display language, including regional variants such as French (Canada). Other system languages fall back to English. A manual selection takes priority, applies immediately, and is saved for future launches. The interface, notices, and application-defined error messages are translated. Mod names, mod descriptions, and custom group names remain in their original language.
 
-| Inhalt | Standardpfad |
+| Content | Default path |
 | --- | --- |
-| Einstellungen und Modgruppen | `%LOCALAPPDATA%\7Days-ModManager\settings.json` |
+| Settings and mod groups | `%LOCALAPPDATA%\7Days-ModManager\settings.json` |
 | Backups | `%LOCALAPPDATA%\7Days-ModManager\Backups` |
-| Spielstände | `%APPDATA%\7DaysToDie\Saves` |
+| Saves | `%APPDATA%\7DaysToDie\Saves` |
 
-Die Pfade können unter **Einstellungen** geändert werden. Der Backupordner wird auf Lese- und Schreibzugriff geprüft. Ein nicht zugänglicher alter Documents-Standardpfad wird mit Hinweis auf den aktuellen Standard umgestellt; vorhandene Backups bleiben am bisherigen Ort.
+You can change these paths in **Settings**. The backup folder is checked for read and write access. If an old default backup path under Documents is inaccessible, the application switches to the current default and displays a notice; existing backups remain in their original location.
 
-## Umfang und Hinweise
+## Scope and notes
 
-- Spiel und Dedicated Server vor Backup, Wiederherstellung oder Modwechsel beenden und während des Vorgangs geschlossen lassen. Die Anwendung prüft die üblichen Prozessnamen.
-- Ein Backup umfasst ausschließlich den gewählten Spielstandordner. Externe generierte Weltdaten, Spielinstallation und Mods sind nicht enthalten.
-- Verwaltet werden Mods im gewählten Spielordner. Mods unter `%APPDATA%\7DaysToDie\Mods` bleiben unverändert.
-- Wiederherstellen ersetzt den gesamten Spielstandordner, einschließlich aller enthaltenen Welten und Sitzungen.
-- Verknüpfte Ordner/Dateien werden bei Backup- und Modoperationen aus Sicherheitsgründen nicht unterstützt.
-- Die Anwendung prüft keine Kompatibilität von Mods untereinander oder mit der Spielversion.
+- Close the game and dedicated server before backing up, restoring, or switching mods, and keep them closed throughout the operation. The application checks the usual process names.
+- A backup includes only the selected saves folder. External generated world data, the game installation, and mods are not included.
+- The application manages mods in the selected game folder. Mods under `%APPDATA%\7DaysToDie\Mods` remain unchanged.
+- Restoring replaces the entire saves folder, including all worlds and sessions it contains.
+- Linked folders and files are not supported for backup and mod operations for safety reasons.
+- The application does not check compatibility between mods or with the game version.
 
-## Selbst bauen
+## Building from source
 
-Voraussetzungen: Windows und das **.NET 10 SDK**.
+Requirements: Windows and the **.NET 10 SDK**.
 
 ```powershell
 git clone https://github.com/LSC-Labs/SevenDaysModHandler.git
@@ -70,32 +72,32 @@ cd SevenDaysModHandler
 .\Start.cmd
 ```
 
-`build.cmd` erstellt die Release-Ausgabe unter `artifacts\app`. Diese lokale Ausgabe benötigt die .NET 10 Desktop Runtime. Die Anwendung vor einem erneuten Build schließen.
+`build.cmd` creates the Release output in `artifacts\app`. This local build requires the .NET 10 Desktop Runtime. Close the application before rebuilding.
 
-Eigenständigen Windows-x64-Download mit enthaltener Laufzeit bauen:
+To build a standalone Windows x64 download with the runtime included:
 
 ```powershell
 dotnet publish SevenDaysModManager -c Release -r win-x64 --self-contained true -p:Version=1.0.0 -o artifacts/release/win-x64
 ```
 
-## Tests und Projektstruktur
+## Tests and project structure
 
 ```powershell
 dotnet run --project Tests -c Release
 ```
 
-Die Integrationstests verwenden eigene temporäre Dateien und prüfen Backups, Wiederherstellung, Sicherheitsbackup, Pfadprüfungen, Modmetadaten, Modwechsel, Gruppenwechsel und Kollisionsschutz. Die interaktive GUI-Abnahme erfolgt separat.
+The integration tests use their own temporary files and cover backups, restoration, safety backups, path validation, mod metadata, mod switching, group switching, and conflict protection. Interactive GUI validation is performed separately.
 
-| Datei/Ordner | Inhalt |
+| File/folder | Content |
 | --- | --- |
-| `SevenDaysModManager/Program.cs` | Hauptfenster und Modliste |
-| `SevenDaysModManager/Groups.cs` | Oberfläche für Modgruppen |
-| `SevenDaysModManager/Services.cs` | Einstellungen, Steam-Suche und Dateioperationen |
-| `Tests/` | Integrationstests ohne externe Testpakete |
-| `build.cmd`, `Start.cmd` | Lokales Bauen und Starten |
+| `SevenDaysModManager/Program.cs` | Main window and mod list |
+| `SevenDaysModManager/Groups.cs` | Mod group interface |
+| `SevenDaysModManager/Services.cs` | Settings, Steam search, and file operations |
+| `Tests/` | Integration tests without external test packages |
+| `build.cmd`, `Start.cmd` | Local build and launch scripts |
 
-## Spielbezug
+## Game attribution
 
-Dieses Projekt ist ein unabhängiges Hilfsprogramm für 7 Days to Die. Das Anwendungssymbol wurde aus der lokal installierten `7DaysToDie.exe` übernommen; Spielname und Symbol gehören den jeweiligen Rechteinhabern (The Fun Pimps).
+This project is an independent utility for 7 Days to Die. The application icon was taken from the locally installed `7DaysToDie.exe`; the game name and icon belong to their respective rights holders (The Fun Pimps).
 
-Das unterstützte ModInfo-Format ist im [Entwicklerforum von The Fun Pimps](https://community.thefunpimps.com/threads/what-is-the-new-layout-for-modinfo-xml-v2.32514/) beschrieben.
+The supported ModInfo format is described in [The Fun Pimps developer forum](https://community.thefunpimps.com/threads/what-is-the-new-layout-for-modinfo-xml-v2.32514/).

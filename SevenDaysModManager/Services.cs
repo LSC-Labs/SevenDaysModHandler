@@ -9,6 +9,7 @@ namespace SevenDaysModManager;
 public sealed class Settings
 {
     public string GamePath { get; set; } = "";
+    public string Language { get; set; } = "auto";
     public string SavesPath { get; set; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "7DaysToDie", "Saves");
     public static string DefaultBackupPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "7Days-ModManager", "Backups");
     public string BackupPath { get; set; } = DefaultBackupPath;
@@ -34,18 +35,34 @@ public sealed class ModGroup
 }
 public static class Manager
 {
+    public static ProcessStartInfo GameStartInfo(string gamePath, bool withEac)
+    {
+        if (string.IsNullOrWhiteSpace(gamePath) || !File.Exists(Path.Combine(gamePath, "7DaysToDie.exe")))
+            throw new IOException(L.T("Bitte einen gültigen Spielordner auswählen (7DaysToDie.exe)."));
+        var directory = Path.GetFullPath(gamePath);
+        var executable = Path.Combine(directory, withEac ? "7DaysToDie_EAC.exe" : "7DaysToDie.exe");
+        if (!File.Exists(executable)) throw new IOException(L.T("Startprogramm fehlt: {0}", executable));
+        return new ProcessStartInfo(executable) { WorkingDirectory = directory, UseShellExecute = true };
+    }
+    public static void StartGame(string gamePath, bool withEac)
+    {
+        var start = GameStartInfo(gamePath, withEac);
+        EnsureStopped();
+        using var process = Process.Start(start);
+        if (process == null) throw new IOException(L.T("Das Spiel konnte nicht gestartet werden."));
+    }
     public static void SetGroup(string game, ModGroup group, bool activate)
     {
         EnsureStopped();
         if (!string.Equals(Path.GetFullPath(game), Path.GetFullPath(group.GamePath), StringComparison.OrdinalIgnoreCase))
-            throw new IOException("Die Gruppe gehört zu einer anderen Spielinstallation.");
-        if (!File.Exists(Path.Combine(game, "7DaysToDie.exe"))) throw new IOException("Ungültiger Spielordner.");
+            throw new IOException(L.T("Die Gruppe gehört zu einer anderen Spielinstallation."));
+        if (!File.Exists(Path.Combine(game, "7DaysToDie.exe"))) throw new IOException(L.T("Ungültiger Spielordner."));
         var all = Mods(game);
         var wanted = group.Folders.ToHashSet(StringComparer.OrdinalIgnoreCase);
         if (activate)
         {
             var missing = wanted.Except(all.Select(m => Path.GetFileName(m.Folder)), StringComparer.OrdinalIgnoreCase).ToArray();
-            if (missing.Length > 0) throw new IOException("Gruppenmods fehlen: " + string.Join(", ", missing) + ". Es wurde nichts geändert.");
+            if (missing.Length > 0) throw new IOException(L.T("Gruppenmods fehlen: ") + string.Join(", ", missing) + L.T(". Es wurde nichts geändert."));
         }
         var changes = all.Where(m => activate ? m.Active != wanted.Contains(Path.GetFileName(m.Folder)) : m.Active && wanted.Contains(Path.GetFileName(m.Folder))).ToList();
         // Check every move before touching the first mod.
@@ -54,7 +71,7 @@ public static class Manager
             var targetRoot = Path.Combine(game, mod.Active ? "Mods-Store" : "Mods");
             CheckLink(mod.Folder); CheckLink(targetRoot);
             var target = Path.Combine(targetRoot, Path.GetFileName(mod.Folder));
-            if (Directory.Exists(target) || File.Exists(target)) throw new IOException("Ziel bereits vorhanden: " + target + ". Es wurde nichts geändert.");
+            if (Directory.Exists(target) || File.Exists(target)) throw new IOException(L.T("Ziel bereits vorhanden: ") + target + L.T(". Es wurde nichts geändert."));
         }
         var moved = new Stack<Mod>();
         try
@@ -70,8 +87,8 @@ public static class Manager
                 try { Directory.Move(current, mod.Folder); }
                 catch (Exception rollback) { errors.Add(rollback); }
             }
-            if (errors.Count > 1) throw new AggregateException("Gruppenwechsel fehlgeschlagen; einige Mods konnten nicht zurückverschoben werden. Bitte Modstatus prüfen.", errors);
-            throw new IOException("Gruppenwechsel fehlgeschlagen. Bereits verschobene Mods wurden zurückgesetzt. " + original.Message, original);
+            if (errors.Count > 1) throw new AggregateException(L.T("Gruppenwechsel fehlgeschlagen; einige Mods konnten nicht zurückverschoben werden. Bitte Modstatus prüfen."), errors);
+            throw new IOException(L.T("Gruppenwechsel fehlgeschlagen. Bereits verschobene Mods wurden zurückgesetzt. ") + original.Message, original);
         }
     }
     public static void EnsureBackupAccess(Settings s)
@@ -94,7 +111,7 @@ public static class Manager
         }
         catch (Exception e) when (e is IOException or UnauthorizedAccessException)
         {
-            throw new IOException($"Der Backupordner ist nicht les- und beschreibbar:\n{s.BackupPath}\n\nBitte unter Einstellungen einen zugänglichen Backupordner auswählen, beispielsweise:\n{Settings.DefaultBackupPath}\n\nDetails: {e.Message}", e);
+            throw new IOException(L.T("Der Backupordner ist nicht les- und beschreibbar:\n{0}\n\nBitte unter Einstellungen einen zugänglichen Backupordner auswählen, beispielsweise:\n{1}\n\nDetails: {2}", s.BackupPath, Settings.DefaultBackupPath, e.Message), e);
         }
         finally
         {
@@ -117,29 +134,29 @@ public static class Manager
             s.BackupPath = Settings.DefaultBackupPath;
             try { EnsureBackupAccess(s); s.Save(); }
             catch { s.BackupPath = previous; throw; }
-            return $"Der bisherige Standard-Backupordner ist nicht zugänglich:\n{previous}\n\nNeue Backups werden hier gespeichert:\n{s.BackupPath}\n\nVorhandene Backups bleiben im bisherigen Ordner. Sie wurden nicht verschoben. Der Backupordner kann unter Einstellungen geändert werden.";
+            return L.T("Der bisherige Standard-Backupordner ist nicht zugänglich:\n{0}\n\nNeue Backups werden hier gespeichert:\n{1}\n\nVorhandene Backups bleiben im bisherigen Ordner. Sie wurden nicht verschoben. Der Backupordner kann unter Einstellungen geändert werden.", previous, s.BackupPath);
         }
     }
     public static bool ContainsPath(string parent, string child) => Path.GetFullPath(child).TrimEnd(Path.DirectorySeparatorChar).Equals(Path.GetFullPath(parent).TrimEnd(Path.DirectorySeparatorChar), StringComparison.OrdinalIgnoreCase) || Path.GetFullPath(child).StartsWith(Path.GetFullPath(parent).TrimEnd(Path.DirectorySeparatorChar) + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase);
     public static void Validate(Settings s)
     {
-        if (string.IsNullOrWhiteSpace(s.SavesPath) || string.IsNullOrWhiteSpace(s.BackupPath)) throw new IOException("Spielstand- und Backupordner müssen angegeben sein.");
-        if (ContainsPath(s.SavesPath, s.BackupPath) || ContainsPath(s.BackupPath, s.SavesPath)) throw new IOException("Spielstand- und Backupordner dürfen sich nicht überlappen.");
-        if (Path.GetPathRoot(Path.GetFullPath(s.SavesPath)) == Path.GetFullPath(s.SavesPath)) throw new IOException("Ein Laufwerksstamm ist kein Spielstandordner.");
+        if (string.IsNullOrWhiteSpace(s.SavesPath) || string.IsNullOrWhiteSpace(s.BackupPath)) throw new IOException(L.T("Spielstand- und Backupordner müssen angegeben sein."));
+        if (ContainsPath(s.SavesPath, s.BackupPath) || ContainsPath(s.BackupPath, s.SavesPath)) throw new IOException(L.T("Spielstand- und Backupordner dürfen sich nicht überlappen."));
+        if (Path.GetPathRoot(Path.GetFullPath(s.SavesPath)) == Path.GetFullPath(s.SavesPath)) throw new IOException(L.T("Ein Laufwerksstamm ist kein Spielstandordner."));
     }
     public static void EnsureStopped()
     {
         foreach (var name in new[] { "7DaysToDie", "7DaysToDieServer", "7DaysToDie_EAC" })
         {
             var processes = Process.GetProcessesByName(name);
-            try { if (processes.Length > 0) throw new IOException("Bitte zuerst 7 Days to Die und den Server beenden."); }
+            try { if (processes.Length > 0) throw new IOException(L.T("Bitte zuerst 7 Days to Die und den Server beenden.")); }
             finally { foreach (var p in processes) p.Dispose(); }
         }
     }
     static void CheckLink(string path)
     {
         for (var d = new DirectoryInfo(Path.GetFullPath(path)); d != null; d = d.Parent)
-            if (d.Exists && (d.Attributes & FileAttributes.ReparsePoint) != 0) throw new IOException("Verknüpfte Ordner werden aus Sicherheitsgründen nicht unterstützt: " + d.FullName);
+            if (d.Exists && (d.Attributes & FileAttributes.ReparsePoint) != 0) throw new IOException(L.T("Verknüpfte Ordner werden aus Sicherheitsgründen nicht unterstützt: ") + d.FullName);
     }
     public static void CopyTree(string source, string target)
     {
@@ -148,7 +165,7 @@ public static class Manager
         Directory.CreateDirectory(target);
         foreach (var file in Directory.EnumerateFiles(source))
         {
-            if ((File.GetAttributes(file) & FileAttributes.ReparsePoint) != 0) throw new IOException("Verknüpfte Datei: " + file);
+            if ((File.GetAttributes(file) & FileAttributes.ReparsePoint) != 0) throw new IOException(L.T("Verknüpfte Datei: ") + file);
             File.Copy(file, Path.Combine(target, Path.GetFileName(file)), false);
         }
         foreach (var dir in Directory.EnumerateDirectories(source)) CopyTree(dir, Path.Combine(target, Path.GetFileName(dir)));
@@ -156,7 +173,7 @@ public static class Manager
     public static string Backup(Settings s)
     {
         Validate(s); EnsureStopped();
-        if (!Directory.Exists(s.SavesPath)) throw new DirectoryNotFoundException("Spielstandordner wurde nicht gefunden.");
+        if (!Directory.Exists(s.SavesPath)) throw new DirectoryNotFoundException(L.T("Spielstandordner wurde nicht gefunden."));
         EnsureBackupAccess(s);
         var name = DateTime.UtcNow.ToString("yyyy-MM-dd'T'HH-mm-ss.fffffff'Z'");
         var target = Path.Combine(s.BackupPath, name);
@@ -174,7 +191,7 @@ public static class Manager
     public static void Restore(Settings s, string backup)
     {
         Validate(s); EnsureStopped();
-        if (!Backups(s).Contains(backup, StringComparer.OrdinalIgnoreCase)) throw new IOException("Kein gültiges Backup ausgewählt.");
+        if (!Backups(s).Contains(backup, StringComparer.OrdinalIgnoreCase)) throw new IOException(L.T("Kein gültiges Backup ausgewählt."));
         CheckLink(s.SavesPath);
         if (Directory.Exists(s.SavesPath)) Backup(s);
         var target = Path.GetFullPath(s.SavesPath).TrimEnd(Path.DirectorySeparatorChar);
@@ -202,7 +219,7 @@ public static class Manager
             if (!Directory.Exists(root)) continue;
             foreach (var folder in Directory.GetDirectories(root))
             {
-                var name = Path.GetFileName(folder); string version = "–", description = "Keine ModInfo.xml vorhanden", website = "";
+                var name = Path.GetFileName(folder); string version = "–", description = L.T("Keine ModInfo.xml vorhanden"), website = "";
                 try
                 {
                     var info = Path.Combine(folder, "ModInfo.xml");
@@ -214,7 +231,7 @@ public static class Manager
                         version = Read("Version"); description = Read("Description"); website = Read("Website");
                     }
                 }
-                catch (Exception e) when (e is IOException or System.Xml.XmlException or UnauthorizedAccessException) { description = "Metadaten konnten nicht gelesen werden: " + e.Message; }
+                catch (Exception e) when (e is IOException or System.Xml.XmlException or UnauthorizedAccessException) { description = L.T("Metadaten konnten nicht gelesen werden: ") + e.Message; }
                 result.Add(new(name, version, description, website, active, folder));
             }
         }
@@ -223,14 +240,14 @@ public static class Manager
     public static void Toggle(string game, Mod mod)
     {
         EnsureStopped();
-        if (!File.Exists(Path.Combine(game, "7DaysToDie.exe"))) throw new IOException("Bitte einen gültigen Spielordner auswählen (7DaysToDie.exe).");
+        if (!File.Exists(Path.Combine(game, "7DaysToDie.exe"))) throw new IOException(L.T("Bitte einen gültigen Spielordner auswählen (7DaysToDie.exe)."));
         var sourceRoot = Path.Combine(game, mod.Active ? "Mods" : "Mods-Store");
-        if (!string.Equals(Path.GetDirectoryName(Path.GetFullPath(mod.Folder)), Path.GetFullPath(sourceRoot), StringComparison.OrdinalIgnoreCase)) throw new IOException("Ungültiger Modordner.");
+        if (!string.Equals(Path.GetDirectoryName(Path.GetFullPath(mod.Folder)), Path.GetFullPath(sourceRoot), StringComparison.OrdinalIgnoreCase)) throw new IOException(L.T("Ungültiger Modordner."));
         var targetRoot = Path.Combine(game, mod.Active ? "Mods-Store" : "Mods");
         CheckLink(mod.Folder); CheckLink(targetRoot);
         Directory.CreateDirectory(targetRoot);
         var target = Path.Combine(targetRoot, Path.GetFileName(mod.Folder));
-        if (Directory.Exists(target) || File.Exists(target)) throw new IOException("Im Ziel existiert bereits ein Mod mit diesem Ordnernamen. Es wurde nichts überschrieben.");
+        if (Directory.Exists(target) || File.Exists(target)) throw new IOException(L.T("Im Ziel existiert bereits ein Mod mit diesem Ordnernamen. Es wurde nichts überschrieben."));
         Directory.Move(mod.Folder, target);
     }
     public static string[] FindGames()

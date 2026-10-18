@@ -7,4 +7,5 @@
     <Nullable>enable</Nullable>
     <ApplicationIcon>game.ico</ApplicationIcon>
   </PropertyGroup>
+  <ItemGroup><EmbeddedResource Include="Translations.json" /></ItemGroup>
 </Project>

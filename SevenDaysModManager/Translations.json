@@ -1,0 +1,751 @@
+{
+  "Die Anwendung ist bereits geöffnet.": {
+    "it": "L'applicazione è già aperta.",
+    "fr": "L’application est déjà ouverte.",
+    "en": "The application is already open.",
+    "de": "Die Anwendung ist bereits geöffnet.",
+    "es": "La aplicación ya está abierta."
+  },
+  "Bereit": {
+    "it": "Pronto",
+    "fr": "Prêt",
+    "en": "Ready",
+    "de": "Bereit",
+    "es": "Listo"
+  },
+  "7 Days to Die · Spielstände & Mods": {
+    "it": "7 Days to Die · Salvataggi e mod",
+    "fr": "7 Days to Die · Sauvegardes et mods",
+    "en": "7 Days to Die · Saves & Mods",
+    "de": "7 Days to Die · Spielstände & Mods",
+    "es": "7 Days to Die · Partidas y mods"
+  },
+  "Spielstände": {
+    "it": "Salvataggi",
+    "fr": "Parties",
+    "en": "Saves",
+    "de": "Spielstände",
+    "es": "Partidas"
+  },
+  "Mods": {
+    "it": "Mod",
+    "fr": "Mods",
+    "en": "Mods",
+    "de": "Mods",
+    "es": "Mods"
+  },
+  "Einstellungen": {
+    "it": "Impostazioni",
+    "fr": "Paramètres",
+    "en": "Settings",
+    "de": "Einstellungen",
+    "es": "Configuración"
+  },
+  "Backup erstellen": {
+    "it": "Crea backup",
+    "fr": "Créer une sauvegarde",
+    "en": "Create backup",
+    "de": "Backup erstellen",
+    "es": "Crear copia de seguridad"
+  },
+  "Backup wird erstellt …": {
+    "it": "Creazione backup …",
+    "fr": "Création de la sauvegarde …",
+    "en": "Creating backup …",
+    "de": "Backup wird erstellt …",
+    "es": "Creando copia …"
+  },
+  "Backup erstellt: ": {
+    "it": "Backup creato: ",
+    "fr": "Sauvegarde créée : ",
+    "en": "Backup created: ",
+    "de": "Backup erstellt: ",
+    "es": "Copia creada: "
+  },
+  "Auswahl wiederherstellen": {
+    "it": "Ripristina selezione",
+    "fr": "Restaurer la sélection",
+    "en": "Restore selected backup",
+    "de": "Auswahl wiederherstellen",
+    "es": "Restaurar selección"
+  },
+  "Bitte ein Backup auswählen.": {
+    "it": "Seleziona un backup.",
+    "fr": "Sélectionnez une sauvegarde.",
+    "en": "Please select a backup.",
+    "de": "Bitte ein Backup auswählen.",
+    "es": "Selecciona una copia de seguridad."
+  },
+  "Alle aktuellen Spielstände werden ersetzt. Vorher wird automatisch ein Sicherheitsbackup erstellt. Fortfahren?": {
+    "it": "Tutti i salvataggi attuali saranno sostituiti. Prima verrà creato un backup di sicurezza. Continuare?",
+    "fr": "Toutes les parties actuelles seront remplacées. Une sauvegarde de sécurité sera créée au préalable. Continuer ?",
+    "en": "All current saves will be replaced. A safety backup will be created first. Continue?",
+    "de": "Alle aktuellen Spielstände werden ersetzt. Vorher wird automatisch ein Sicherheitsbackup erstellt. Fortfahren?",
+    "es": "Se reemplazarán todas las partidas actuales. Primero se creará una copia de seguridad. ¿Continuar?"
+  },
+  "Backup wiederherstellen": {
+    "it": "Ripristina backup",
+    "fr": "Restaurer une sauvegarde",
+    "en": "Restore backup",
+    "de": "Backup wiederherstellen",
+    "es": "Restaurar copia"
+  },
+  "Spielstände werden wiederhergestellt …": {
+    "it": "Ripristino salvataggi …",
+    "fr": "Restauration des parties …",
+    "en": "Restoring saves …",
+    "de": "Spielstände werden wiederhergestellt …",
+    "es": "Restaurando partidas …"
+  },
+  "Wiederherstellung abgeschlossen.": {
+    "it": "Ripristino completato.",
+    "fr": "Restauration terminée.",
+    "en": "Restore complete.",
+    "de": "Wiederherstellung abgeschlossen.",
+    "es": "Restauración completada."
+  },
+  "Aktualisieren": {
+    "it": "Aggiorna",
+    "fr": "Actualiser",
+    "en": "Refresh",
+    "de": "Aktualisieren",
+    "es": "Actualizar"
+  },
+  "Backups des gesamten Spielstandordners · Zeitstempel in UTC (Z), mit Windows-kompatiblen Bindestrichen · Spiel vorher beenden": {
+    "it": "Backup dell'intera cartella dei salvataggi · Date UTC (Z), con trattini compatibili con Windows · Chiudi prima il gioco",
+    "fr": "Sauvegardes du dossier complet des parties · Dates UTC (Z), avec tirets compatibles Windows · Fermez d’abord le jeu",
+    "en": "Backups of the entire saves folder · UTC timestamps (Z), with Windows-compatible hyphens · Close the game first",
+    "de": "Backups des gesamten Spielstandordners · Zeitstempel in UTC (Z), mit Windows-kompatiblen Bindestrichen · Spiel vorher beenden",
+    "es": "Copias de toda la carpeta de partidas · Fechas UTC (Z), con guiones compatibles con Windows · Cierra el juego primero"
+  },
+  "Name": {
+    "it": "Nome",
+    "fr": "Nom",
+    "en": "Name",
+    "de": "Name",
+    "es": "Nombre"
+  },
+  "Version": {
+    "it": "Versione",
+    "fr": "Version",
+    "en": "Version",
+    "de": "Version",
+    "es": "Versión"
+  },
+  "Beschreibung": {
+    "it": "Descrizione",
+    "fr": "Description",
+    "en": "Description",
+    "de": "Beschreibung",
+    "es": "Descripción"
+  },
+  "Webseite": {
+    "it": "Sito web",
+    "fr": "Site web",
+    "en": "Website",
+    "de": "Webseite",
+    "es": "Sitio web"
+  },
+  "Status": {
+    "it": "Stato",
+    "fr": "État",
+    "en": "Status",
+    "de": "Status",
+    "es": "Estado"
+  },
+  "Aktion": {
+    "it": "Azione",
+    "fr": "Action",
+    "en": "Action",
+    "de": "Aktion",
+    "es": "Acción"
+  },
+  "Aktiv": {
+    "it": "Attivo",
+    "fr": "Actif",
+    "en": "Active",
+    "de": "Aktiv",
+    "es": "Activo"
+  },
+  "Inaktiv": {
+    "it": "Inattivo",
+    "fr": "Inactif",
+    "en": "Inactive",
+    "de": "Inaktiv",
+    "es": "Inactivo"
+  },
+  "Deaktivieren": {
+    "it": "Disattiva",
+    "fr": "Désactiver",
+    "en": "Deactivate",
+    "de": "Deaktivieren",
+    "es": "Desactivar"
+  },
+  "Aktivieren": {
+    "it": "Attiva",
+    "fr": "Activer",
+    "en": "Activate",
+    "de": "Aktivieren",
+    "es": "Activar"
+  },
+  "Keine gültige HTTP/HTTPS-Webseite hinterlegt.": {
+    "it": "Nessun sito HTTP/HTTPS valido specificato.",
+    "fr": "Aucun site HTTP/HTTPS valide renseigné.",
+    "en": "No valid HTTP/HTTPS website specified.",
+    "de": "Keine gültige HTTP/HTTPS-Webseite hinterlegt.",
+    "es": "No hay un sitio HTTP/HTTPS válido."
+  },
+  "Mod wird verschoben …": {
+    "it": "Spostamento mod …",
+    "fr": "Déplacement du mod …",
+    "en": "Moving mod …",
+    "de": "Mod wird verschoben …",
+    "es": "Moviendo mod …"
+  },
+  " deaktiviert.": {
+    "it": " disattivato.",
+    "fr": " désactivé.",
+    "en": " deactivated.",
+    "de": " deaktiviert.",
+    "es": " desactivado."
+  },
+  " aktiviert.": {
+    "it": " attivato.",
+    "fr": " activé.",
+    "en": " activated.",
+    "de": " aktiviert.",
+    "es": " activado."
+  },
+  "Mods aktualisieren": {
+    "it": "Aggiorna mod",
+    "fr": "Actualiser les mods",
+    "en": "Refresh mods",
+    "de": "Mods aktualisieren",
+    "es": "Actualizar mods"
+  },
+  "Entpackte Modordner in <Spiel>\\\\Mods-Store ablegen. Aktivieren verschiebt sie nach <Spiel>\\\\Mods.\\nDiese Anwendung verwaltet die Mods im Spielordner; Mods im Benutzerprofil werden nicht verändert.": {
+    "it": "Inserisci le cartelle mod estratte in <Gioco>\\\\Mods-Store. L'attivazione le sposta in <Gioco>\\\\Mods.\\nQuesta applicazione gestisce le mod nella cartella del gioco; quelle nel profilo utente restano invariate.",
+    "fr": "Placez les dossiers de mods extraits dans <Jeu>\\\\Mods-Store. L’activation les déplace vers <Jeu>\\\\Mods.\\nCette application gère les mods du dossier du jeu ; ceux du profil utilisateur restent inchangés.",
+    "en": "Place extracted mod folders in <Game>\\\\Mods-Store. Activating moves them to <Game>\\\\Mods.\\nThis application manages mods in the game folder; mods in the user profile remain unchanged.",
+    "de": "Entpackte Modordner in <Spiel>\\\\Mods-Store ablegen. Aktivieren verschiebt sie nach <Spiel>\\\\Mods.\\nDiese Anwendung verwaltet die Mods im Spielordner; Mods im Benutzerprofil werden nicht verändert.",
+    "es": "Coloca los mods extraídos en <Juego>\\\\Mods-Store. Al activarlos se mueven a <Juego>\\\\Mods.\\nEsta aplicación gestiona los mods de la carpeta del juego; los del perfil de usuario no se modifican."
+  },
+  "Spielordner": {
+    "it": "Cartella del gioco",
+    "fr": "Dossier du jeu",
+    "en": "Game folder",
+    "de": "Spielordner",
+    "es": "Carpeta del juego"
+  },
+  "Spielstandordner": {
+    "it": "Cartella dei salvataggi",
+    "fr": "Dossier des parties",
+    "en": "Saves folder",
+    "de": "Spielstandordner",
+    "es": "Carpeta de partidas"
+  },
+  "Backupordner": {
+    "it": "Cartella dei backup",
+    "fr": "Dossier des sauvegardes",
+    "en": "Backup folder",
+    "de": "Backupordner",
+    "es": "Carpeta de copias"
+  },
+  "Einstellungen speichern": {
+    "it": "Salva impostazioni",
+    "fr": "Enregistrer les paramètres",
+    "en": "Save settings",
+    "de": "Einstellungen speichern",
+    "es": "Guardar configuración"
+  },
+  "Speichern …": {
+    "it": "Salvataggio …",
+    "fr": "Enregistrement …",
+    "en": "Saving …",
+    "de": "Speichern …",
+    "es": "Guardando …"
+  },
+  "Im Spielordner fehlt 7DaysToDie.exe.": {
+    "it": "7DaysToDie.exe non è presente nella cartella del gioco.",
+    "fr": "7DaysToDie.exe est absent du dossier du jeu.",
+    "en": "7DaysToDie.exe is missing from the game folder.",
+    "de": "Im Spielordner fehlt 7DaysToDie.exe.",
+    "es": "Falta 7DaysToDie.exe en la carpeta del juego."
+  },
+  "Einstellungen gespeichert.": {
+    "it": "Impostazioni salvate.",
+    "fr": "Paramètres enregistrés.",
+    "en": "Settings saved.",
+    "de": "Einstellungen gespeichert.",
+    "es": "Configuración guardada."
+  },
+  "Spiel automatisch suchen": {
+    "it": "Trova gioco automaticamente",
+    "fr": "Rechercher le jeu automatiquement",
+    "en": "Find game automatically",
+    "de": "Spiel automatisch suchen",
+    "es": "Buscar juego automáticamente"
+  },
+  "Einstellungen konnten nicht geladen werden. Bitte neu speichern.": {
+    "it": "Impossibile caricare le impostazioni. Salvale di nuovo.",
+    "fr": "Impossible de charger les paramètres. Enregistrez-les à nouveau.",
+    "en": "Could not load settings. Please save them again.",
+    "de": "Einstellungen konnten nicht geladen werden. Bitte neu speichern.",
+    "es": "No se pudo cargar la configuración. Vuelve a guardarla."
+  },
+  "Backupordner aktualisiert": {
+    "it": "Cartella dei backup aggiornata",
+    "fr": "Dossier des sauvegardes mis à jour",
+    "en": "Backup folder updated",
+    "de": "Backupordner aktualisiert",
+    "es": "Carpeta de copias actualizada"
+  },
+  "Bitte den laufenden Vorgang abwarten.": {
+    "it": "Attendi il completamento dell'operazione.",
+    "fr": "Veuillez attendre la fin de l’opération en cours.",
+    "en": "Please wait for the current operation to finish.",
+    "de": "Bitte den laufenden Vorgang abwarten.",
+    "es": "Espera a que termine la operación actual."
+  },
+  "Durchsuchen …": {
+    "it": "Sfoglia …",
+    "fr": "Parcourir …",
+    "en": "Browse …",
+    "de": "Durchsuchen …",
+    "es": "Examinar …"
+  },
+  "Steam-Bibliotheken werden durchsucht …": {
+    "it": "Ricerca nelle librerie Steam …",
+    "fr": "Recherche dans les bibliothèques Steam …",
+    "en": "Searching Steam libraries …",
+    "de": "Steam-Bibliotheken werden durchsucht …",
+    "es": "Buscando en bibliotecas de Steam …"
+  },
+  "Spiel nicht gefunden. Bitte den Spielordner manuell auswählen.": {
+    "it": "Gioco non trovato. Seleziona manualmente la cartella del gioco.",
+    "fr": "Jeu introuvable. Sélectionnez le dossier du jeu manuellement.",
+    "en": "Game not found. Please select the game folder manually.",
+    "de": "Spiel nicht gefunden. Bitte den Spielordner manuell auswählen.",
+    "es": "Juego no encontrado. Selecciona la carpeta del juego manualmente."
+  },
+  "Spielinstallation auswählen": {
+    "it": "Seleziona installazione del gioco",
+    "fr": "Sélectionner l’installation du jeu",
+    "en": "Select game installation",
+    "de": "Spielinstallation auswählen",
+    "es": "Seleccionar instalación del juego"
+  },
+  "Auswählen": {
+    "it": "Seleziona",
+    "fr": "Sélectionner",
+    "en": "Select",
+    "de": "Auswählen",
+    "es": "Seleccionar"
+  },
+  "Spiel gefunden und Einstellungen gespeichert.": {
+    "it": "Gioco trovato e impostazioni salvate.",
+    "fr": "Jeu trouvé et paramètres enregistrés.",
+    "en": "Game found and settings saved.",
+    "de": "Spiel gefunden und Einstellungen gespeichert.",
+    "es": "Juego encontrado y configuración guardada."
+  },
+  "Vorgang fehlgeschlagen.": {
+    "it": "Operazione non riuscita.",
+    "fr": "Échec de l’opération.",
+    "en": "Operation failed.",
+    "de": "Vorgang fehlgeschlagen.",
+    "es": "La operación falló."
+  },
+  "Hinweis": {
+    "it": "Avviso",
+    "fr": "Information",
+    "en": "Notice",
+    "de": "Hinweis",
+    "es": "Aviso"
+  },
+  "Modgruppen": {
+    "it": "Gruppi di mod",
+    "fr": "Groupes de mods",
+    "en": "Mod groups",
+    "de": "Modgruppen",
+    "es": "Grupos de mods"
+  },
+  "Gespeicherte Gruppen": {
+    "it": "Gruppi salvati",
+    "fr": "Groupes enregistrés",
+    "en": "Saved groups",
+    "de": "Gespeicherte Gruppen",
+    "es": "Grupos guardados"
+  },
+  "Gruppenname": {
+    "it": "Nome del gruppo",
+    "fr": "Nom du groupe",
+    "en": "Group name",
+    "de": "Gruppenname",
+    "es": "Nombre del grupo"
+  },
+  "Zugehörige Mods auswählen (Mehrfachzuordnung möglich)": {
+    "it": "Seleziona mod (possono appartenere a più gruppi)",
+    "fr": "Sélectionnez les mods (plusieurs groupes possibles)",
+    "en": "Select group mods (mods can belong to multiple groups)",
+    "de": "Zugehörige Mods auswählen (Mehrfachzuordnung möglich)",
+    "es": "Selecciona mods (pueden pertenecer a varios grupos)"
+  },
+  "Neue Gruppe": {
+    "it": "Nuovo gruppo",
+    "fr": "Nouveau groupe",
+    "en": "New group",
+    "de": "Neue Gruppe",
+    "es": "Nuevo grupo"
+  },
+  "Gruppe speichern": {
+    "it": "Salva gruppo",
+    "fr": "Enregistrer le groupe",
+    "en": "Save group",
+    "de": "Gruppe speichern",
+    "es": "Guardar grupo"
+  },
+  "Gruppe löschen": {
+    "it": "Elimina gruppo",
+    "fr": "Supprimer le groupe",
+    "en": "Delete group",
+    "de": "Gruppe löschen",
+    "es": "Eliminar grupo"
+  },
+  "Bitte eine Gruppe auswählen.": {
+    "it": "Seleziona un gruppo.",
+    "fr": "Sélectionnez un groupe.",
+    "en": "Please select a group.",
+    "de": "Bitte eine Gruppe auswählen.",
+    "es": "Selecciona un grupo."
+  },
+  "Gruppe löschen? Die Mods bleiben unverändert.": {
+    "it": "Eliminare il gruppo? Le mod resteranno invariate.",
+    "fr": "Supprimer le groupe ? Les mods resteront inchangés.",
+    "en": "Delete group? The mods will remain unchanged.",
+    "de": "Gruppe löschen? Die Mods bleiben unverändert.",
+    "es": "¿Eliminar grupo? Los mods no se modificarán."
+  },
+  "Gruppe aktivieren": {
+    "it": "Attiva gruppo",
+    "fr": "Activer le groupe",
+    "en": "Activate group",
+    "de": "Gruppe aktivieren",
+    "es": "Activar grupo"
+  },
+  "Gruppe deaktivieren": {
+    "it": "Disattiva gruppo",
+    "fr": "Désactiver le groupe",
+    "en": "Deactivate group",
+    "de": "Gruppe deaktivieren",
+    "es": "Desactivar grupo"
+  },
+  "Aktivieren: Genau die gespeicherten Gruppenmods werden aktiviert; alle anderen Mods werden deaktiviert.\\nDeaktivieren: Nur die Mods der gewählten Gruppe werden deaktiviert. Änderungen vorher speichern.\\nGruppen gelten für die jeweilige Spielinstallation. Spiel und Server vorher beenden.": {
+    "it": "Attiva: Vengono attivate solo le mod salvate del gruppo; tutte le altre vengono disattivate.\\nDisattiva: Vengono disattivate solo le mod del gruppo selezionato. Salva prima le modifiche.\\nI gruppi valgono per la rispettiva installazione. Chiudi prima gioco e server.",
+    "fr": "Activer : Seuls les mods enregistrés du groupe sont activés ; tous les autres sont désactivés.\\nDésactiver : Seuls les mods du groupe sélectionné sont désactivés. Enregistrez d’abord les modifications.\\nLes groupes sont liés à leur installation. Fermez d’abord le jeu et le serveur.",
+    "en": "Activate: Only the saved group mods are activated; all other mods are deactivated.\\nDeactivate: Only mods in the selected group are deactivated. Save changes first.\\nGroups apply to their game installation. Close the game and server first.",
+    "de": "Aktivieren: Genau die gespeicherten Gruppenmods werden aktiviert; alle anderen Mods werden deaktiviert.\\nDeaktivieren: Nur die Mods der gewählten Gruppe werden deaktiviert. Änderungen vorher speichern.\\nGruppen gelten für die jeweilige Spielinstallation. Spiel und Server vorher beenden.",
+    "es": "Activar: Se activan solo los mods guardados del grupo; los demás se desactivan.\\nDesactivar: Solo se desactivan los mods del grupo seleccionado. Guarda los cambios primero.\\nLos grupos corresponden a su instalación. Cierra el juego y el servidor primero."
+  },
+  " (fehlt)": {
+    "it": " (mancante)",
+    "fr": " (manquant)",
+    "en": " (missing)",
+    "de": " (fehlt)",
+    "es": " (falta)"
+  },
+  "Bitte zuerst einen gültigen Spielordner einstellen.": {
+    "it": "Imposta prima una cartella del gioco valida.",
+    "fr": "Configurez d’abord un dossier de jeu valide.",
+    "en": "Please configure a valid game folder first.",
+    "de": "Bitte zuerst einen gültigen Spielordner einstellen.",
+    "es": "Configura primero una carpeta de juego válida."
+  },
+  "Bitte einen Gruppennamen eingeben.": {
+    "it": "Inserisci un nome per il gruppo.",
+    "fr": "Saisissez un nom de groupe.",
+    "en": "Please enter a group name.",
+    "de": "Bitte einen Gruppennamen eingeben.",
+    "es": "Introduce un nombre de grupo."
+  },
+  "Eine Gruppe mit diesem Namen existiert bereits.": {
+    "it": "Esiste già un gruppo con questo nome.",
+    "fr": "Un groupe portant ce nom existe déjà.",
+    "en": "A group with this name already exists.",
+    "de": "Eine Gruppe mit diesem Namen existiert bereits.",
+    "es": "Ya existe un grupo con este nombre."
+  },
+  "Gruppe gespeichert: ": {
+    "it": "Gruppo salvato: ",
+    "fr": "Groupe enregistré : ",
+    "en": "Group saved: ",
+    "de": "Gruppe gespeichert: ",
+    "es": "Grupo guardado: "
+  },
+  "Bitte eine gespeicherte Gruppe auswählen.": {
+    "it": "Seleziona un gruppo salvato.",
+    "fr": "Sélectionnez un groupe enregistré.",
+    "en": "Please select a saved group.",
+    "de": "Bitte eine gespeicherte Gruppe auswählen.",
+    "es": "Selecciona un grupo guardado."
+  },
+  "Diese Gruppe ist leer. Dadurch werden alle Mods deaktiviert. Fortfahren?": {
+    "it": "Questo gruppo è vuoto. Tutte le mod saranno disattivate. Continuare?",
+    "fr": "Ce groupe est vide. Tous les mods seront désactivés. Continuer ?",
+    "en": "This group is empty. All mods will be deactivated. Continue?",
+    "de": "Diese Gruppe ist leer. Dadurch werden alle Mods deaktiviert. Fortfahren?",
+    "es": "Este grupo está vacío. Se desactivarán todos los mods. ¿Continuar?"
+  },
+  "Leere Gruppe aktivieren": {
+    "it": "Attiva gruppo vuoto",
+    "fr": "Activer un groupe vide",
+    "en": "Activate empty group",
+    "de": "Leere Gruppe aktivieren",
+    "es": "Activar grupo vacío"
+  },
+  "Modgruppe wird umgeschaltet …": {
+    "it": "Cambio gruppo di mod …",
+    "fr": "Changement de groupe de mods …",
+    "en": "Switching mod group …",
+    "de": "Modgruppe wird umgeschaltet …",
+    "es": "Cambiando grupo de mods …"
+  },
+  "aktiviert.": {
+    "it": "attivato.",
+    "fr": "activé.",
+    "en": "activated.",
+    "de": "aktiviert.",
+    "es": "activado."
+  },
+  "deaktiviert.": {
+    "it": "disattivato.",
+    "fr": "désactivé.",
+    "en": "deactivated.",
+    "de": "deaktiviert.",
+    "es": "desactivado."
+  },
+  "Die Gruppe gehört zu einer anderen Spielinstallation.": {
+    "it": "Il gruppo appartiene a un'altra installazione del gioco.",
+    "fr": "Ce groupe appartient à une autre installation du jeu.",
+    "en": "The group belongs to another game installation.",
+    "de": "Die Gruppe gehört zu einer anderen Spielinstallation.",
+    "es": "El grupo pertenece a otra instalación del juego."
+  },
+  "Ungültiger Spielordner.": {
+    "it": "Cartella del gioco non valida.",
+    "fr": "Dossier de jeu invalide.",
+    "en": "Invalid game folder.",
+    "de": "Ungültiger Spielordner.",
+    "es": "Carpeta del juego no válida."
+  },
+  "Gruppenmods fehlen: ": {
+    "it": "Mod del gruppo mancanti: ",
+    "fr": "Mods du groupe manquants : ",
+    "en": "Missing group mods: ",
+    "de": "Gruppenmods fehlen: ",
+    "es": "Faltan mods del grupo: "
+  },
+  ". Es wurde nichts geändert.": {
+    "it": ". Nessuna modifica effettuata.",
+    "fr": ". Aucune modification effectuée.",
+    "en": ". Nothing was changed.",
+    "de": ". Es wurde nichts geändert.",
+    "es": ". No se ha cambiado nada."
+  },
+  "Ziel bereits vorhanden: ": {
+    "it": "La destinazione esiste già: ",
+    "fr": "La destination existe déjà : ",
+    "en": "Destination already exists: ",
+    "de": "Ziel bereits vorhanden: ",
+    "es": "El destino ya existe: "
+  },
+  "Gruppenwechsel fehlgeschlagen; einige Mods konnten nicht zurückverschoben werden. Bitte Modstatus prüfen.": {
+    "it": "Cambio gruppo non riuscito; alcune mod non sono state ripristinate. Controlla lo stato delle mod.",
+    "fr": "Échec du changement de groupe ; certains mods n’ont pas pu être remis en place. Vérifiez leur état.",
+    "en": "Group switch failed; some mods could not be moved back. Please check mod status.",
+    "de": "Gruppenwechsel fehlgeschlagen; einige Mods konnten nicht zurückverschoben werden. Bitte Modstatus prüfen.",
+    "es": "Falló el cambio de grupo; algunos mods no pudieron restaurarse. Comprueba su estado."
+  },
+  "Gruppenwechsel fehlgeschlagen. Bereits verschobene Mods wurden zurückgesetzt. ": {
+    "it": "Cambio gruppo non riuscito. Le mod spostate sono state ripristinate. ",
+    "fr": "Échec du changement de groupe. Les mods déplacés ont été remis en place. ",
+    "en": "Group switch failed. Moved mods were restored. ",
+    "de": "Gruppenwechsel fehlgeschlagen. Bereits verschobene Mods wurden zurückgesetzt. ",
+    "es": "Falló el cambio de grupo. Los mods movidos se han restaurado. "
+  },
+  "Spielstand- und Backupordner müssen angegeben sein.": {
+    "it": "Specifica le cartelle dei salvataggi e dei backup.",
+    "fr": "Les dossiers des parties et des sauvegardes sont requis.",
+    "en": "Saves and backup folders are required.",
+    "de": "Spielstand- und Backupordner müssen angegeben sein.",
+    "es": "Debes indicar las carpetas de partidas y copias."
+  },
+  "Spielstand- und Backupordner dürfen sich nicht überlappen.": {
+    "it": "Le cartelle dei salvataggi e dei backup non devono sovrapporsi.",
+    "fr": "Les dossiers des parties et des sauvegardes ne doivent pas se chevaucher.",
+    "en": "Saves and backup folders must not overlap.",
+    "de": "Spielstand- und Backupordner dürfen sich nicht überlappen.",
+    "es": "Las carpetas de partidas y copias no deben solaparse."
+  },
+  "Ein Laufwerksstamm ist kein Spielstandordner.": {
+    "it": "La radice di un'unità non può essere la cartella dei salvataggi.",
+    "fr": "La racine d’un lecteur ne peut pas servir de dossier des parties.",
+    "en": "A drive root cannot be used as the saves folder.",
+    "de": "Ein Laufwerksstamm ist kein Spielstandordner.",
+    "es": "La raíz de una unidad no puede ser la carpeta de partidas."
+  },
+  "Bitte zuerst 7 Days to Die und den Server beenden.": {
+    "it": "Chiudi prima 7 Days to Die e il server.",
+    "fr": "Fermez d’abord 7 Days to Die et le serveur.",
+    "en": "Please close 7 Days to Die and the server first.",
+    "de": "Bitte zuerst 7 Days to Die und den Server beenden.",
+    "es": "Cierra primero 7 Days to Die y el servidor."
+  },
+  "Verknüpfte Ordner werden aus Sicherheitsgründen nicht unterstützt: ": {
+    "it": "Le cartelle collegate non sono supportate per sicurezza: ",
+    "fr": "Les dossiers liés ne sont pas pris en charge pour des raisons de sécurité : ",
+    "en": "Linked folders are not supported for safety reasons: ",
+    "de": "Verknüpfte Ordner werden aus Sicherheitsgründen nicht unterstützt: ",
+    "es": "No se admiten carpetas enlazadas por seguridad: "
+  },
+  "Verknüpfte Datei: ": {
+    "it": "File collegato: ",
+    "fr": "Fichier lié : ",
+    "en": "Linked file: ",
+    "de": "Verknüpfte Datei: ",
+    "es": "Archivo enlazado: "
+  },
+  "Spielstandordner wurde nicht gefunden.": {
+    "it": "Cartella dei salvataggi non trovata.",
+    "fr": "Dossier des parties introuvable.",
+    "en": "Saves folder not found.",
+    "de": "Spielstandordner wurde nicht gefunden.",
+    "es": "No se encontró la carpeta de partidas."
+  },
+  "Kein gültiges Backup ausgewählt.": {
+    "it": "Nessun backup valido selezionato.",
+    "fr": "Aucune sauvegarde valide sélectionnée.",
+    "en": "No valid backup selected.",
+    "de": "Kein gültiges Backup ausgewählt.",
+    "es": "No se ha seleccionado una copia válida."
+  },
+  "Keine ModInfo.xml vorhanden": {
+    "it": "ModInfo.xml non trovato",
+    "fr": "Aucun fichier ModInfo.xml trouvé",
+    "en": "No ModInfo.xml found",
+    "de": "Keine ModInfo.xml vorhanden",
+    "es": "No se encontró ModInfo.xml"
+  },
+  "Metadaten konnten nicht gelesen werden: ": {
+    "it": "Impossibile leggere i metadati: ",
+    "fr": "Impossible de lire les métadonnées : ",
+    "en": "Could not read metadata: ",
+    "de": "Metadaten konnten nicht gelesen werden: ",
+    "es": "No se pudieron leer los metadatos: "
+  },
+  "Bitte einen gültigen Spielordner auswählen (7DaysToDie.exe).": {
+    "it": "Seleziona una cartella del gioco valida (7DaysToDie.exe).",
+    "fr": "Sélectionnez un dossier de jeu valide (7DaysToDie.exe).",
+    "en": "Please select a valid game folder (7DaysToDie.exe).",
+    "de": "Bitte einen gültigen Spielordner auswählen (7DaysToDie.exe).",
+    "es": "Selecciona una carpeta de juego válida (7DaysToDie.exe)."
+  },
+  "Ungültiger Modordner.": {
+    "it": "Cartella mod non valida.",
+    "fr": "Dossier de mod invalide.",
+    "en": "Invalid mod folder.",
+    "de": "Ungültiger Modordner.",
+    "es": "Carpeta de mod no válida."
+  },
+  "Im Ziel existiert bereits ein Mod mit diesem Ordnernamen. Es wurde nichts überschrieben.": {
+    "it": "Nella destinazione esiste già una mod con questo nome di cartella. Nessun file sovrascritto.",
+    "fr": "Un mod avec ce nom de dossier existe déjà à destination. Aucun fichier écrasé.",
+    "en": "A mod with this folder name already exists at the destination. Nothing was overwritten.",
+    "de": "Im Ziel existiert bereits ein Mod mit diesem Ordnernamen. Es wurde nichts überschrieben.",
+    "es": "Ya existe un mod con ese nombre de carpeta en el destino. No se ha sobrescrito nada."
+  },
+  "Sprache": {
+    "it": "Lingua",
+    "fr": "Langue",
+    "en": "Language",
+    "de": "Sprache",
+    "es": "Idioma"
+  },
+  "Automatisch (Systemsprache)": {
+    "it": "Automatico (lingua di sistema)",
+    "fr": "Automatique (langue du système)",
+    "en": "Automatic (system language)",
+    "de": "Automatisch (Systemsprache)",
+    "es": "Automático (idioma del sistema)"
+  },
+  "Gruppe {0} {1}": {
+    "it": "Gruppo {0} {1}",
+    "fr": "Groupe {0} {1}",
+    "en": "Group {0} {1}",
+    "de": "Gruppe {0} {1}",
+    "es": "Grupo {0} {1}"
+  },
+  "Der Backupordner ist nicht les- und beschreibbar:\\n{0}\\n\\nBitte unter Einstellungen einen zugänglichen Backupordner auswählen, beispielsweise:\\n{1}\\n\\nDetails: {2}": {
+    "it": "Impossibile leggere e scrivere nella cartella dei backup:\\n{0}\\n\\nSeleziona una cartella accessibile nelle Impostazioni, ad esempio:\\n{1}\\n\\nDettagli: {2}",
+    "fr": "Le dossier des sauvegardes n’est pas accessible en lecture et écriture :\\n{0}\\n\\nSélectionnez un dossier accessible dans les Paramètres, par exemple :\\n{1}\\n\\nDétails : {2}",
+    "en": "The backup folder cannot be read and written:\\n{0}\\n\\nPlease select an accessible backup folder in Settings, for example:\\n{1}\\n\\nDetails: {2}",
+    "de": "Der Backupordner ist nicht les- und beschreibbar:\\n{0}\\n\\nBitte unter Einstellungen einen zugänglichen Backupordner auswählen, beispielsweise:\\n{1}\\n\\nDetails: {2}",
+    "es": "No se puede leer y escribir en la carpeta de copias:\\n{0}\\n\\nSelecciona una carpeta accesible en Configuración, por ejemplo:\\n{1}\\n\\nDetalles: {2}"
+  },
+  "Der bisherige Standard-Backupordner ist nicht zugänglich:\\n{0}\\n\\nNeue Backups werden hier gespeichert:\\n{1}\\n\\nVorhandene Backups bleiben im bisherigen Ordner. Sie wurden nicht verschoben. Der Backupordner kann unter Einstellungen geändert werden.": {
+    "it": "La cartella predefinita precedente non è accessibile:\\n{0}\\n\\nI nuovi backup saranno salvati qui:\\n{1}\\n\\nI backup esistenti restano nella cartella precedente. Non sono stati spostati. Puoi cambiare la cartella nelle Impostazioni.",
+    "fr": "L’ancien dossier par défaut est inaccessible :\\n{0}\\n\\nLes nouvelles sauvegardes seront enregistrées ici :\\n{1}\\n\\nLes sauvegardes existantes restent dans l’ancien dossier. Elles n’ont pas été déplacées. Vous pouvez changer le dossier dans les Paramètres.",
+    "en": "The previous default backup folder is inaccessible:\\n{0}\\n\\nNew backups will be saved here:\\n{1}\\n\\nExisting backups remain in the previous folder. They were not moved. You can change the backup folder in Settings.",
+    "de": "Der bisherige Standard-Backupordner ist nicht zugänglich:\\n{0}\\n\\nNeue Backups werden hier gespeichert:\\n{1}\\n\\nVorhandene Backups bleiben im bisherigen Ordner. Sie wurden nicht verschoben. Der Backupordner kann unter Einstellungen geändert werden.",
+    "es": "La carpeta de copias anterior no es accesible:\\n{0}\\n\\nLas nuevas copias se guardarán aquí:\\n{1}\\n\\nLas copias existentes siguen en la carpeta anterior. No se han movido. Puedes cambiar la carpeta en Configuración."
+  },
+  "▶ Spielen · ohne EAC (Mods)": {
+    "de": "▶ Spielen · ohne EAC (Mods)",
+    "es": "▶ Jugar · sin EAC (mods)",
+    "en": "▶ Play · without EAC (mods)",
+    "it": "▶ Gioca · senza EAC (mod)",
+    "fr": "▶ Jouer · sans EAC (mods)"
+  },
+  "▶ Spielen · mit EAC": {
+    "de": "▶ Spielen · mit EAC",
+    "es": "▶ Jugar · con EAC",
+    "en": "▶ Play · with EAC",
+    "it": "▶ Gioca · con EAC",
+    "fr": "▶ Jouer · avec EAC"
+  },
+  "EAC ist der Anti-Cheat-Schutz. Aktive Mods bleiben bei beiden Startarten unverändert.": {
+    "de": "EAC ist der Anti-Cheat-Schutz. Aktive Mods bleiben bei beiden Startarten unverändert.",
+    "es": "EAC es la protección antitrampas. Ambas opciones mantienen los mods activos sin cambios.",
+    "en": "EAC is the anti-cheat protection. Both launch options leave active mods unchanged.",
+    "it": "EAC è la protezione anti-cheat. Entrambe le opzioni lasciano invariate le mod attive.",
+    "fr": "EAC est la protection anti-triche. Les deux options conservent les mods actifs."
+  },
+  "Spiel wird gestartet …": {
+    "de": "Spiel wird gestartet …",
+    "es": "Iniciando juego …",
+    "en": "Starting game …",
+    "it": "Avvio del gioco …",
+    "fr": "Démarrage du jeu …"
+  },
+  "Spielstart angefordert.": {
+    "de": "Spielstart angefordert.",
+    "es": "Inicio del juego solicitado.",
+    "en": "Game launch requested.",
+    "it": "Avvio del gioco richiesto.",
+    "fr": "Démarrage du jeu demandé."
+  },
+  "Startprogramm fehlt: {0}": {
+    "de": "Startprogramm fehlt: {0}",
+    "es": "No se encontró el ejecutable del juego: {0}",
+    "en": "Game executable not found: {0}",
+    "it": "Eseguibile del gioco non trovato: {0}",
+    "fr": "Exécutable du jeu introuvable : {0}"
+  },
+  "Das Spiel konnte nicht gestartet werden.": {
+    "de": "Das Spiel konnte nicht gestartet werden.",
+    "es": "No se pudo iniciar el juego.",
+    "en": "The game could not be started.",
+    "it": "Impossibile avviare il gioco.",
+    "fr": "Impossible de démarrer le jeu."
+  }
+}

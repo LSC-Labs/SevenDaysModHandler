@@ -4,6 +4,20 @@ void Check(bool condition, string message) { if (!condition) throw new Exception
 void Reject(Action action, string message) { try { action(); } catch (IOException) { Console.WriteLine("OK: " + message); return; } throw new Exception(message); }
 try
 {
+    L.ValidateCatalog();
+    Check(new Settings().Language == "auto", "Neue Einstellungen verwenden die Systemsprache");
+    foreach (var code in L.Languages)
+    {
+        Check(L.Resolve("auto", System.Globalization.CultureInfo.GetCultureInfo(code + (code == "en" ? "-US" : code == "de" ? "-DE" : code == "es" ? "-MX" : code == "it" ? "-IT" : "-CA"))) == code, "Regionale Systemsprache: " + code);
+        L.Select(code);
+        Check(L.T("Einstellungen") != "" && L.T("Gruppe {0} {1}", "Test", L.T("aktiviert.")).Contains("Test"), "Übersetzung und Platzhalter: " + code);
+        Check(System.Text.Json.JsonSerializer.Deserialize<Settings>(System.Text.Json.JsonSerializer.Serialize(new Settings { Language = code }))!.Language == code, "Sprachwahl serialisiert: " + code);
+    }
+    Check(L.Resolve("auto", System.Globalization.CultureInfo.GetCultureInfo("ja-JP")) == "en" && L.Resolve("invalid") == "en", "Unbekannte Sprachen verwenden Englisch");
+    Check(L.Resolve("fr", System.Globalization.CultureInfo.GetCultureInfo("de-DE")) == "fr", "Manuelle Auswahl hat Vorrang");
+    L.Select("en");
+    Check(L.T("Einstellungen") == "Settings", "Englische Standardübersetzung");
+    L.Select("de");
     var s = new Settings { SavesPath = Path.Combine(root, "Saves"), BackupPath = Path.Combine(root, "Backups"), GamePath = Path.Combine(root, "Game") };
     Check(new Settings().BackupPath == Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "7Days-ModManager", "Backups"), "Backupstandard liegt im lokalen Anwendungsordner");
     Manager.EnsureBackupAccess(s);
@@ -27,10 +41,28 @@ try
     Reject(() => Manager.Restore(s, root), "Fremde Ordner werden nicht wiederhergestellt");
     Reject(() => Manager.Backup(new Settings { SavesPath = s.SavesPath, BackupPath = Path.Combine(s.SavesPath, "Backups") }), "Überlappende Pfade werden abgewiesen");
     Directory.CreateDirectory(s.GamePath); File.WriteAllText(Path.Combine(s.GamePath, "7DaysToDie.exe"), "test");
+    Reject(() => Manager.GameStartInfo("", false), "Spielstart ohne Spielordner wird abgelehnt");
+    Reject(() => Manager.GameStartInfo(s.GamePath, true), "Fehlendes EAC-Startprogramm wird erkannt");
+    File.WriteAllText(Path.Combine(s.GamePath, "7DaysToDie_EAC.exe"), "test");
+    foreach (var withEac in new[] { false, true })
+    {
+        var start = Manager.GameStartInfo(s.GamePath, withEac);
+        Check(start.FileName == Path.Combine(s.GamePath, withEac ? "7DaysToDie_EAC.exe" : "7DaysToDie.exe") && start.WorkingDirectory == s.GamePath && start.UseShellExecute && start.Arguments == "", "Spielstart verwendet passendes Programm und Arbeitsverzeichnis: EAC=" + withEac);
+    }
     var mod = Path.Combine(s.GamePath, "Mods-Store", "Example"); Directory.CreateDirectory(mod);
     File.WriteAllText(Path.Combine(mod, "ModInfo.xml"), "<xml><Name value='Example'/><DisplayName value='Beispiel'/><Version value='1.2'/><Description value='Beschreibung'/><Website value='https://example.com'/></xml>");
     var m = Manager.Mods(s.GamePath).Single();
     Check(m.Name == "Beispiel" && m.Version == "1.2" && m.Website == "https://example.com" && !m.Active, "ModInfo V2 lesen");
+    foreach (var code in L.Languages)
+    {
+        L.Select(code);
+        var localizedMod = Manager.Mods(s.GamePath).Single();
+        Check(localizedMod.Name == "Beispiel" && localizedMod.Version == "1.2", "Metadaten bleiben sprachunabhängig: " + code);
+        Manager.Toggle(s.GamePath, localizedMod);
+        Check(Directory.Exists(Path.Combine(s.GamePath, "Mods", "Example")), "Aktiver Modpfad bleibt sprachunabhängig: " + code);
+        Manager.Toggle(s.GamePath, Manager.Mods(s.GamePath).Single());
+    }
+    L.Select("de");
     Manager.Toggle(s.GamePath, m); m = Manager.Mods(s.GamePath).Single(); Check(m.Active, "Mod aktivieren");
     Directory.CreateDirectory(mod); Reject(() => Manager.Toggle(s.GamePath, m), "Namenskollision überschreibt nichts"); Directory.Delete(mod);
     Manager.Toggle(s.GamePath, m); Check(!Manager.Mods(s.GamePath).Single().Active, "Mod deaktivieren");

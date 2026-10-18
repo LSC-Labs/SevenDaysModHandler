@@ -1,6 +1,6 @@
 # SevenDaysModHandler
 
-Eine deutschsprachige Windows-Anwendung zum Sichern von Spielständen und Verwalten von Mods für **7 Days to Die**. Entwickelt mit C# und Windows Forms auf .NET 10.
+Eine mehrsprachige Windows-Anwendung zum Sichern von Spielständen und Verwalten von Mods für **7 Days to Die**. Entwickelt mit C# und Windows Forms auf .NET 10.
 
 ## Download und Start
 
@@ -15,6 +15,7 @@ Der Release-Download enthält die .NET-Laufzeit. Eine zusätzliche .NET-Installa
 
 ## Funktionen
 
+- **Spiel starten:** Zwei große Buttons oberhalb der Registerkarten starten die gewählte Installation ohne EAC (für Mods) oder mit Easy Anti-Cheat. Der Start erfolgt über `7DaysToDie.exe` beziehungsweise `7DaysToDie_EAC.exe`. Beide Varianten behalten die aktive Modauswahl bei; EAC ist kein Schalter zum Deaktivieren von Mods. Für einen Start ohne eigene Mods diese vorher in der Modverwaltung deaktivieren. Fehlende Startprogramme und bereits laufendes Spiel/Server werden gemeldet.
 - **Spielstand sichern:** Kopiert den gesamten konfigurierten Spielstandordner in einen Backupordner mit UTC-Datum und Uhrzeit. Das Format `2026-10-17T12-30-00.1234567Z` verwendet Windows-kompatible Bindestriche statt Doppelpunkten.
 - **Backup wiederherstellen:** Erstellt vorher ein Sicherheitsbackup und ersetzt anschließend den aktuellen Spielstandordner durch das ausgewählte Backup. Unvollständige Backups werden nicht angeboten.
 - **Mods aktivieren und deaktivieren:** Verschiebt vollständige Modordner zwischen `<Spiel>\Mods` und `<Spiel>\Mods-Store`. Vorhandene Zielordner werden nicht überschrieben.
@@ -38,6 +39,8 @@ Auf **Modgruppen** eine neue Gruppe anlegen, einen Namen eingeben, Mitglieder an
 Fehlende Gruppenmods und Zielkollisionen verhindern die Aktivierung vor dem ersten Verschieben. Bei Fehlern während eines Gruppenwechsels versucht die Anwendung bereits verschobene Mods zurückzusetzen.
 
 ## Einstellungen und Speicherorte
+
+Unter **Settings → Language** (Deutsch: **Einstellungen → Sprache**) stehen **English, Deutsch, Español, Italiano und Français** sowie **Automatisch (Systemsprache)** zur Verfügung. Standardmäßig folgt die Anwendung der Windows-Anzeigesprache; regionale Varianten wie Französisch (Kanada) werden unterstützt. Bei anderen Systemsprachen wird Englisch verwendet. Eine manuelle Auswahl hat Vorrang, wirkt sofort und wird für weitere Starts gespeichert. Die Texte der Oberfläche, Hinweise und anwendungseigenen Fehlermeldungen sind übersetzt. Modnamen, Modbeschreibungen und eigene Gruppennamen bleiben im Original.
 
 | Inhalt | Standardpfad |
 | --- | --- |

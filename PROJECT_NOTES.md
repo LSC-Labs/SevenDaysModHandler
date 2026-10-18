@@ -1,5 +1,9 @@
 # Projektkontext für weitere Bearbeitung
 
+Spielstart: prominente Startleiste über allen Tabs, ohne EAC (Mods) über 7DaysToDie.exe und mit EAC über 7DaysToDie_EAC.exe, jeweils mit Spielordner als WorkingDirectory. Kein automatisches Verschieben von Mods. Manager.GameStartInfo validiert Pfad/EXE und ist ohne tatsächlichen Prozessstart testbar; StartGame prüft EnsureStopped. Startleiste bei laufenden Dateioperationen deaktiviert. Alle neuen Texte in fünf Sprachen.
+
+Mehrsprachigkeit: Localization.cs und eingebetteter Translations.json-Katalog für en/de/es/it/fr. Settings.Language standardmäßig auto; Windows-Anzeigesprache (inklusive regionaler Varianten), Rückfall Englisch. Einstellungen → Sprache speichert die Auswahl sofort und aktualisiert die Oberfläche ohne Neustart. Technische Pfade, XML-Schlüssel, Bindings und Nutzerdaten bleiben sprachunabhängig. Tests prüfen Katalogvollständigkeit/Formatplatzhalter, Spracherkennung, Persistenz und Modoperationen in allen fünf Sprachen.
+
 - Nutzerwunsch: deutsche Windows-GUI für 7 Days to Die; vollständige Spielstandbackups, Wiederherstellung, Mods durch Verschieben aktivieren/deaktivieren, persistente Pfade und initiale Steam-Suche über Laufwerke.
 - Technik: C#, .NET 10, Windows Forms, keine externen Pakete. Hauptprojekt SevenDaysModManager; Services.cs enthält Dateioperationen, Einstellungen, Metadaten und Steam-Suche; Program.cs enthält GUI.
 - Persistenz: %LOCALAPPDATA%\7Days-ModManager\settings.json; GamePath, SavesPath, BackupPath. Standard-Saves: %APPDATA%\7DaysToDie\Saves. Backups standardmäßig unter %LOCALAPPDATA%\7Days-ModManager\Backups.

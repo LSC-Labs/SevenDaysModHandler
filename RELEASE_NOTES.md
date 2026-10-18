@@ -1,19 +1,23 @@
-# Version 1.0.0
+# Version 1.1.0.0
 
-Erste Veröffentlichung des SevenDaysModHandler für Windows x64.
+Windows x64 release of SevenDaysModHandler.
 
-- Deutsche Windows-Oberfläche für Spielstandbackups und Wiederherstellung mit vorherigem Sicherheitsbackup.
-- Aktivieren und Deaktivieren von Mods durch Verschieben zwischen Mods und Mods-Store.
-- Modgruppen zum schnellen Wechsel kompletter Zusammenstellungen.
-- Sortierbare Modliste mit Metadaten, Webseitenlinks und Statusanzeige.
-- Automatische Steam-Spielsuche und dauerhaft gespeicherte Einstellungen.
+## What's new
 
-## Download verwenden
+- English, German, Spanish, Italian, and French interface, notices, and application error messages.
+- Automatic Windows display language detection with English fallback, plus a persistent manual language selection that applies immediately.
+- Prominent game launch buttons for playing without Easy Anti-Cheat (for mods) or with EAC. Both options preserve the active mod selection.
+- A distinct launch area with the EAC explanation beside the buttons and clear separation from the tabs.
+- English README and a linked German version in README.de.md.
 
-SevenDaysModHandler-1.0.0-win-x64.zip vollständig entpacken und SevenDaysModManager.exe starten. Die .NET-Laufzeit ist enthalten. Spiel und Server vor Backup oder Modwechsel schließen.
+## Download and run
 
-SHA256SUMS.txt enthält die SHA-256-Prüfsumme des ZIP-Archivs.
+Extract `SevenDaysModHandler-1.1.0.0-win-x64.zip` completely and run `SevenDaysModManager.exe`. The .NET runtime is included. Close the game and server before backing up, restoring, or switching mods.
 
-## Prüfung und Grenzen
+`SHA256SUMS.txt` contains the SHA-256 checksum of the ZIP archive.
 
-Release-Build und Integrationstests erfolgreich. Interaktive GUI-Abnahme noch ausstehend. Gesichert wird nur der konfigurierte Saves-Ordner; externe Weltdaten und Mods sind nicht Bestandteil des Spielstandbackups.
+## Validation and scope
+
+Release build and integration tests passed, including language detection, translation coverage, launch configuration, backups, restores, and mod/group operations. Tests do not launch the actual game; interactive GUI validation remains separate.
+
+Backups include only the configured saves folder, not external generated worlds or mods. Launching with EAC does not automatically disable mods.

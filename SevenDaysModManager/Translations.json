@@ -1,4 +1,43 @@
 {
+  "Über": { "de": "Über", "en": "About", "es": "Acerca de", "it": "Informazioni", "fr": "À propos" },
+  "Verwaltet Spielstandsicherungen, Mods und Modgruppen für 7 Days to Die.": {
+    "de": "Verwaltet Spielstandsicherungen, Mods und Modgruppen für 7 Days to Die.", "en": "Manage save backups, mods and mod groups for 7 Days to Die.", "es": "Gestiona copias de partidas, mods y grupos de mods para 7 Days to Die.", "it": "Gestisce backup dei salvataggi, mod e gruppi di mod per 7 Days to Die.", "fr": "Gère les sauvegardes, mods et groupes de mods pour 7 Days to Die."
+  },
+  "Autor: LSC Labs": { "de": "Autor: LSC Labs", "en": "Author: LSC Labs", "es": "Autor: LSC Labs", "it": "Autore: LSC Labs", "fr": "Auteur : LSC Labs" },
+  "Auf Updates prüfen": { "de": "Auf Updates prüfen", "en": "Check for updates", "es": "Buscar actualizaciones", "it": "Verifica aggiornamenti", "fr": "Rechercher des mises à jour" },
+  "Neue Version herunterladen": { "de": "Neue Version herunterladen", "en": "Download new version", "es": "Descargar nueva versión", "it": "Scarica nuova versione", "fr": "Télécharger la nouvelle version" },
+  "GitHub-Releases öffnen": { "de": "GitHub-Releases öffnen", "en": "Open GitHub releases", "es": "Abrir versiones de GitHub", "it": "Apri release GitHub", "fr": "Ouvrir les versions GitHub" },
+  "Noch nicht auf Updates geprüft.": { "de": "Noch nicht auf Updates geprüft.", "en": "Updates have not been checked yet.", "es": "Aún no se han buscado actualizaciones.", "it": "Aggiornamenti non ancora verificati.", "fr": "Les mises à jour n’ont pas encore été vérifiées." },
+  "Updates werden geprüft …": { "de": "Updates werden geprüft …", "en": "Checking for updates …", "es": "Buscando actualizaciones …", "it": "Verifica aggiornamenti …", "fr": "Recherche de mises à jour …" },
+  "Neue Version verfügbar: {0}": { "de": "Neue Version verfügbar: {0}", "en": "New version available: {0}", "es": "Nueva versión disponible: {0}", "it": "Nuova versione disponibile: {0}", "fr": "Nouvelle version disponible : {0}" },
+  "Die installierte Version ist aktuell.": { "de": "Die installierte Version ist aktuell.", "en": "The installed version is up to date.", "es": "La versión instalada está actualizada.", "it": "La versione installata è aggiornata.", "fr": "La version installée est à jour." },
+  "Kein stabiles Release verfügbar.": { "de": "Kein stabiles Release verfügbar.", "en": "No stable release available.", "es": "No hay una versión estable disponible.", "it": "Nessuna release stabile disponibile.", "fr": "Aucune version stable disponible." },
+  "Die Release-Version konnte nicht gelesen werden.": { "de": "Die Release-Version konnte nicht gelesen werden.", "en": "Could not read the release version.", "es": "No se pudo leer la versión.", "it": "Impossibile leggere la versione della release.", "fr": "Impossible de lire le numéro de version." },
+  "Ungültige GitHub-Release-Adresse.": { "de": "Ungültige GitHub-Release-Adresse.", "en": "Invalid GitHub release URL.", "es": "Dirección de versión GitHub no válida.", "it": "Indirizzo release GitHub non valido.", "fr": "Adresse de version GitHub invalide." },
+  "Updateprüfung fehlgeschlagen. Bitte Internetverbindung prüfen oder die GitHub-Releases öffnen.": {
+    "de": "Updateprüfung fehlgeschlagen. Bitte Internetverbindung prüfen oder die GitHub-Releases öffnen.", "en": "Update check failed. Check your internet connection or open GitHub releases.", "es": "Error al buscar actualizaciones. Comprueba tu conexión o abre las versiones de GitHub.", "it": "Verifica aggiornamenti non riuscita. Controlla la connessione o apri le release GitHub.", "fr": "Échec de la vérification. Vérifiez votre connexion ou ouvrez les versions GitHub."
+  },
+  "Darstellung": {
+    "de": "Darstellung", "en": "Appearance", "es": "Apariencia", "it": "Aspetto", "fr": "Apparence"
+  },
+  "Hell": {
+    "de": "Hell", "en": "Light", "es": "Claro", "it": "Chiaro", "fr": "Clair"
+  },
+  "Dunkel": {
+    "de": "Dunkel", "en": "Dark", "es": "Oscuro", "it": "Scuro", "fr": "Sombre"
+  },
+  "Backup löschen": {
+    "de": "Backup löschen", "en": "Delete backup", "es": "Eliminar copia de seguridad", "it": "Elimina backup", "fr": "Supprimer la sauvegarde"
+  },
+  "Diese Sicherung endgültig löschen?\\n{0}": {
+    "de": "Diese Sicherung endgültig löschen?\\n{0}", "en": "Permanently delete this backup?\\n{0}", "es": "¿Eliminar esta copia de seguridad definitivamente?\\n{0}", "it": "Eliminare definitivamente questo backup?\\n{0}", "fr": "Supprimer définitivement cette sauvegarde ?\\n{0}"
+  },
+  "Backup wird gelöscht …": {
+    "de": "Backup wird gelöscht …", "en": "Deleting backup …", "es": "Eliminando copia de seguridad …", "it": "Eliminazione del backup …", "fr": "Suppression de la sauvegarde …"
+  },
+  "Backup gelöscht.": {
+    "de": "Backup gelöscht.", "en": "Backup deleted.", "es": "Copia de seguridad eliminada.", "it": "Backup eliminato.", "fr": "Sauvegarde supprimée."
+  },
   "Beschreibung ändern": {
     "de": "Beschreibung ändern", "en": "Edit description", "es": "Editar descripción", "it": "Modifica descrizione", "fr": "Modifier la description"
   },

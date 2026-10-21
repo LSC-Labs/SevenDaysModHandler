@@ -1,10 +1,22 @@
 using SevenDaysModManager;
 var root = Path.Combine(Path.GetTempPath(), "SevenDaysTests-" + Guid.NewGuid().ToString("N"));
 void Check(bool condition, string message) { if (!condition) throw new Exception(message); Console.WriteLine("OK: " + message); }
-void Reject(Action action, string message) { try { action(); } catch (IOException) { Console.WriteLine("OK: " + message); return; } throw new Exception(message); }
+void Reject(Action action, string message) { try { action(); } catch (Exception e) when (e is IOException or InvalidDataException) { Console.WriteLine("OK: " + message); return; } throw new Exception(message); }
 try
 {
     L.ValidateCatalog();
+    Check(Updates.ParseVersion("v1.1.0") == Updates.ParseVersion("1.1.0.0"), "Releaseversionen mit drei und vier Stellen sind gleichwertig");
+    Check(Updates.ParseVersion("v1.10.0") > Updates.ParseVersion("v1.9.0"), "Releaseversionen werden numerisch verglichen");
+    Reject(() => Updates.ParseVersion("v1.2.0-beta"), "Unbekannte Releaseformate werden abgewiesen");
+    var releaseJson = """{"tag_name":"v2.0.0","draft":false,"prerelease":false,"html_url":"https://github.com/LSC-Labs/SevenDaysModHandler/releases/tag/v2.0.0"}""";
+    var release = Updates.ParseRelease(releaseJson);
+    Check(release.Version == new Version(2, 0, 0, 0) && release.DownloadUrl.EndsWith("/v2.0.0"), "Releaseversion und Downloadseite werden gelesen");
+    Reject(() => Updates.ParseRelease(releaseJson.Replace("\"draft\":false", "\"draft\":true")), "Releaseentwürfe werden abgewiesen");
+    Reject(() => Updates.ParseRelease(releaseJson.Replace("\"prerelease\":false", "\"prerelease\":true")), "Vorabversionen werden abgewiesen");
+    Reject(() => Updates.ParseRelease(releaseJson.Replace("https://github.com/", "https://example.com/")), "Fremde Downloadseiten werden abgewiesen");
+    Check(System.Text.Json.JsonSerializer.Deserialize<Settings>("{}")!.Theme == "light", "Bestehende Einstellungen verwenden den hellen Modus");
+    foreach (var mode in new[] { "light", "dark" })
+        Check(System.Text.Json.JsonSerializer.Deserialize<Settings>(System.Text.Json.JsonSerializer.Serialize(new Settings { Theme = mode }))!.Theme == mode, "Darstellung wird gespeichert: " + mode);
     Check(new Settings().Language == "auto", "Neue Einstellungen verwenden die Systemsprache");
     foreach (var code in L.Languages)
     {
@@ -52,6 +64,13 @@ try
     Directory.CreateDirectory(Path.Combine(s.BackupPath, "broken.partial"));
     Check(Manager.Backups(s).Length == 2, "Unvollständige Backups werden ignoriert");
     Reject(() => Manager.Restore(s, root), "Fremde Ordner werden nicht wiederhergestellt");
+    Reject(() => Manager.DeleteBackup(s, root), "Fremde Ordner werden nicht gelöscht");
+    Reject(() => Manager.DeleteBackup(s, Path.Combine(s.BackupPath, "broken.partial")), "Unvollständige Backups werden nicht gelöscht");
+    var disposable = Manager.Backup(s, "Zum Löschen");
+    Manager.DeleteBackup(s, disposable);
+    Check(!Directory.Exists(disposable) && Manager.Backups(s).Length == 2, "Nur die ausgewählte Sicherung wird vollständig gelöscht");
+    Check(File.ReadAllText(save) == "original" && Directory.Exists(first), "Löschen erhält aktuelle Spielstände und andere Sicherungen");
+    Reject(() => Manager.DeleteBackup(s, disposable), "Bereits gelöschte Sicherung wird abgewiesen");
     Reject(() => Manager.Backup(new Settings { SavesPath = s.SavesPath, BackupPath = Path.Combine(s.SavesPath, "Backups") }), "Überlappende Pfade werden abgewiesen");
     Directory.CreateDirectory(s.GamePath); File.WriteAllText(Path.Combine(s.GamePath, "7DaysToDie.exe"), "test");
     Reject(() => Manager.GameStartInfo("", false), "Spielstart ohne Spielordner wird abgelehnt");

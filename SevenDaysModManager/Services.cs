@@ -10,6 +10,7 @@ public sealed class Settings
 {
     public string GamePath { get; set; } = "";
     public string Language { get; set; } = "auto";
+    public string Theme { get; set; } = "light";
     public string SavesPath { get; set; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "7DaysToDie", "Saves");
     public static string DefaultBackupPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "7Days-ModManager", "Backups");
     public string BackupPath { get; set; } = DefaultBackupPath;
@@ -208,6 +209,25 @@ public static class Manager
             File.Move(temporary, path, true);
         }
         finally { if (File.Exists(temporary)) File.Delete(temporary); }
+    }
+    public static void DeleteBackup(Settings s, string backup)
+    {
+        Validate(s);
+        var target = Path.GetFullPath(backup).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+        if (!Backups(s).Any(p => string.Equals(Path.GetFullPath(p), target, StringComparison.OrdinalIgnoreCase)))
+            throw new IOException(L.T("Kein gültiges Backup ausgewählt."));
+        CheckLink(target);
+        void CheckTree(string directory)
+        {
+            foreach (var entry in Directory.EnumerateFileSystemEntries(directory))
+            {
+                var attributes = File.GetAttributes(entry);
+                if ((attributes & FileAttributes.ReparsePoint) != 0) throw new IOException(L.T("Verknüpfte Datei: ") + entry);
+                if ((attributes & FileAttributes.Directory) != 0) CheckTree(entry);
+            }
+        }
+        CheckTree(target);
+        Directory.Delete(target, true);
     }
     public static void Restore(Settings s, string backup)
     {

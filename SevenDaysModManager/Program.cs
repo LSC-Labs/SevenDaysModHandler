@@ -89,6 +89,12 @@ public sealed partial class MainForm : Form
             if (MessageBox.Show(this, L.T("Alle aktuellen Spielstände werden ersetzt. Vorher wird automatisch ein Sicherheitsbackup erstellt. Fortfahren?"), L.T("Backup wiederherstellen"), MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
             await Run(L.T("Spielstände werden wiederhergestellt …"), () => { Manager.Restore(settings, selected.FullName); return L.T("Wiederherstellung abgeschlossen."); });
         }));
+        backupActions.Controls.Add(Button(L.T("Backup löschen"), async () =>
+        {
+            if (backupList.SelectedItem is not BackupItem selected) { MessageBox.Show(this, L.T("Bitte ein Backup auswählen.")); return; }
+            if (MessageBox.Show(this, L.T("Diese Sicherung endgültig löschen?\n{0}", selected), L.T("Backup löschen"), MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) != DialogResult.Yes) return;
+            await Run(L.T("Backup wird gelöscht …"), () => { Manager.DeleteBackup(settings, selected.FullName); return L.T("Backup gelöscht."); });
+        }));
         backupActions.Controls.Add(Button(L.T("Aktualisieren"), () => { RefreshLists(); return Task.CompletedTask; }));
         var hint = new Label { Text = L.T("Backups des gesamten Spielstandordners · Zeitstempel in UTC (Z), mit Windows-kompatiblen Bindestrichen · Spiel vorher beenden"), Dock = DockStyle.Bottom, Height = 46 };
         backupTab.Controls.Add(backupList); backupTab.Controls.Add(backupActions); backupTab.Controls.Add(hint);
@@ -133,10 +139,10 @@ public sealed partial class MainForm : Form
             if (mods.Columns[e.ColumnIndex].Name == "State")
             {
                 e.Value = m.Active ? L.T("Aktiv") : L.T("Inaktiv");
-                e.CellStyle!.BackColor = m.Active ? Color.FromArgb(210, 245, 210) : Color.White;
+                e.CellStyle!.BackColor = m.Active ? ActiveModBackground : SurfaceColor;
                 e.CellStyle.SelectionBackColor = e.CellStyle.BackColor;
-                e.CellStyle.ForeColor = Color.Black;
-                e.CellStyle.SelectionForeColor = Color.Black;
+                e.CellStyle.ForeColor = TextColor;
+                e.CellStyle.SelectionForeColor = TextColor;
             }
             if (mods.Columns[e.ColumnIndex].Name == "Toggle") e.Value = m.Active ? L.T("Deaktivieren") : L.T("Aktivieren");
         };
@@ -164,6 +170,7 @@ public sealed partial class MainForm : Form
         layout.Controls.Add(new Label { Text = L.T("Sprache"), AutoSize = true, Anchor = AnchorStyles.Left }, 0, languageRow);
         language.Items.AddRange(new object[] { new LanguageOption("auto", ""), new LanguageOption("en", "English"), new LanguageOption("de", "Deutsch"), new LanguageOption("es", "Español"), new LanguageOption("it", "Italiano"), new LanguageOption("fr", "Français") });
         layout.Controls.Add(language, 1, languageRow);
+        AddThemeSetting(layout);
         var actions = new FlowLayoutPanel { Dock = DockStyle.Top, AutoSize = true };
         actions.Controls.Add(Button(L.T("Einstellungen speichern"), async () => await Run(L.T("Speichern …"), () => { Manager.EnsureBackupAccess(settings); if (!File.Exists(Path.Combine(settings.GamePath, "7DaysToDie.exe"))) throw new IOException(L.T("Im Spielordner fehlt 7DaysToDie.exe.")); settings.Save(); return L.T("Einstellungen gespeichert."); })));
         actions.Controls.Add(Button(L.T("Spiel automatisch suchen"), FindGame));
@@ -171,6 +178,7 @@ public sealed partial class MainForm : Form
         Shown += async (_, _) =>
         {
             try { settings = Settings.Load(); } catch (Exception e) { ShowError(new IOException(L.T("Einstellungen konnten nicht geladen werden. Bitte neu speichern."), e)); }
+            InitializeTheme();
             language.SelectedIndex = Math.Max(0, language.Items.Cast<LanguageOption>().ToList().FindIndex(o => o.Code == settings.Language));
             language.SelectedIndexChanged += (_, _) => ChangeLanguage();
             game.Text = settings.GamePath; saves.Text = settings.SavesPath; backups.Text = settings.BackupPath;
@@ -184,6 +192,7 @@ public sealed partial class MainForm : Form
             if (string.IsNullOrWhiteSpace(settings.GamePath)) { tabs.SelectedTab = settingsTab; await FindGame(); } else RefreshLists();
         };
         FormClosing += (_, e) => { if (busy) { e.Cancel = true; MessageBox.Show(this, L.T("Bitte den laufenden Vorgang abwarten.")); } };
+        CreateAboutPage();
         CaptureTranslations(this);
         foreach (DataGridViewColumn column in mods.Columns)
             if (L.KeyFor(column.HeaderText) is string key) localizedColumns[column] = key;
@@ -200,6 +209,7 @@ public sealed partial class MainForm : Form
         dialog.Controls.Add(label); dialog.Controls.Add(input); dialog.Controls.Add(actions);
         dialog.AcceptButton = ok; dialog.CancelButton = cancel;
         dialog.Shown += (_, _) => { input.Focus(); input.SelectAll(); };
+        ApplyTheme(dialog);
         return dialog.ShowDialog(this) == DialogResult.OK ? input.Text.Trim() : null;
     }
     void CaptureTranslations(Control control)
@@ -227,12 +237,14 @@ public sealed partial class MainForm : Form
         SuspendLayout();
         foreach (var pair in localizedControls) pair.Key.Text = L.T(pair.Value);
         foreach (var pair in localizedColumns) pair.Key.HeaderText = L.T(pair.Value);
+        RefreshAboutText();
         // Repaint the automatic option using its translated display name.
         updatingLanguage = true;
         var selectedIndex = language.SelectedIndex;
         language.Items[0] = new LanguageOption("auto", "");
         language.SelectedIndex = selectedIndex;
         updatingLanguage = false;
+        RefreshThemeOptions();
         status.Text = L.T("Bereit");
         try
         {
@@ -283,6 +295,7 @@ public sealed partial class MainForm : Form
                 var list = new ListBox { Dock = DockStyle.Fill, DataSource = found };
                 var ok = new Button { Text = L.T("Auswählen"), Dock = DockStyle.Bottom, DialogResult = DialogResult.OK };
                 picker.Controls.Add(list); picker.Controls.Add(ok); picker.AcceptButton = ok;
+                ApplyTheme(picker);
                 if (picker.ShowDialog(this) != DialogResult.OK) return;
                 game.Text = list.SelectedItem?.ToString() ?? "";
             }

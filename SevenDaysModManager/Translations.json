@@ -1,4 +1,22 @@
 {
+  "Beschreibung ändern": {
+    "de": "Beschreibung ändern", "en": "Edit description", "es": "Editar descripción", "it": "Modifica descrizione", "fr": "Modifier la description"
+  },
+  "Beschreibung gespeichert.": {
+    "de": "Beschreibung gespeichert.", "en": "Description saved.", "es": "Descripción guardada.", "it": "Descrizione salvata.", "fr": "Description enregistrée."
+  },
+  "Backup-Beschreibung": {
+    "de": "Backup-Beschreibung", "en": "Backup description", "es": "Descripción de la copia de seguridad", "it": "Descrizione del backup", "fr": "Description de la sauvegarde"
+  },
+  "Name / Beschreibung (optional)": {
+    "de": "Name / Beschreibung (optional)", "en": "Name / description (optional)", "es": "Nombre / descripción (opcional)", "it": "Nome / descrizione (facoltativo)", "fr": "Nom / description (facultatif)"
+  },
+  "Abbrechen": {
+    "de": "Abbrechen", "en": "Cancel", "es": "Cancelar", "it": "Annulla", "fr": "Annuler"
+  },
+  "Speichern": {
+    "de": "Speichern", "en": "Save", "es": "Guardar", "it": "Salva", "fr": "Enregistrer"
+  },
   "Die Anwendung ist bereits geöffnet.": {
     "it": "L'applicazione è già aperta.",
     "fr": "L’application est déjà ouverte.",

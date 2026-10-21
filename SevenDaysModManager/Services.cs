@@ -170,7 +170,7 @@ public static class Manager
         }
         foreach (var dir in Directory.EnumerateDirectories(source)) CopyTree(dir, Path.Combine(target, Path.GetFileName(dir)));
     }
-    public static string Backup(Settings s)
+    public static string Backup(Settings s, string description = "")
     {
         Validate(s); EnsureStopped();
         if (!Directory.Exists(s.SavesPath)) throw new DirectoryNotFoundException(L.T("Spielstandordner wurde nicht gefunden."));
@@ -181,13 +181,34 @@ public static class Manager
         try
         {
             CopyTree(s.SavesPath, Path.Combine(staging, "Saves"));
-            File.WriteAllText(Path.Combine(staging, "backup.json"), JsonSerializer.Serialize(new { Format = 1, CreatedUtc = DateTime.UtcNow, Source = s.SavesPath }));
+            File.WriteAllText(Path.Combine(staging, "backup.json"), JsonSerializer.Serialize(new { Format = 1, CreatedUtc = DateTime.UtcNow, Source = s.SavesPath, Description = description.Trim() }));
             Directory.Move(staging, target);
             return target;
         }
         catch { if (Directory.Exists(staging)) Directory.Delete(staging, true); throw; }
     }
     public static string[] Backups(Settings s) => Directory.Exists(s.BackupPath) ? Directory.GetDirectories(s.BackupPath).Where(p => !p.EndsWith(".partial") && File.Exists(Path.Combine(p, "backup.json")) && Directory.Exists(Path.Combine(p, "Saves"))).OrderDescending().ToArray() : [];
+    public static string BackupDescription(string backup)
+    {
+        using var metadata = JsonDocument.Parse(File.ReadAllText(Path.Combine(backup, "backup.json")));
+        return metadata.RootElement.TryGetProperty("Description", out var value) && value.ValueKind == JsonValueKind.String ? value.GetString() ?? "" : "";
+    }
+    public static void SetBackupDescription(Settings s, string backup, string description)
+    {
+        if (!Backups(s).Contains(backup, StringComparer.OrdinalIgnoreCase)) throw new IOException(L.T("Kein gültiges Backup ausgewählt."));
+        CheckLink(backup);
+        var path = Path.Combine(backup, "backup.json");
+        if ((File.GetAttributes(path) & FileAttributes.ReparsePoint) != 0) throw new IOException(L.T("Verknüpfte Datei: ") + path);
+        var metadata = System.Text.Json.Nodes.JsonNode.Parse(File.ReadAllText(path))!.AsObject();
+        metadata["Description"] = description.Trim();
+        var temporary = path + "." + Guid.NewGuid().ToString("N") + ".tmp";
+        try
+        {
+            File.WriteAllText(temporary, metadata.ToJsonString());
+            File.Move(temporary, path, true);
+        }
+        finally { if (File.Exists(temporary)) File.Delete(temporary); }
+    }
     public static void Restore(Settings s, string backup)
     {
         Validate(s); EnsureStopped();

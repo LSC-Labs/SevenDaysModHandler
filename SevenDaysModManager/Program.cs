@@ -18,7 +18,11 @@ public sealed partial class MainForm : Form
 {
     Settings settings = new();
     readonly TextBox game = new(), saves = new(), backups = new();
-    readonly ListBox backupList = new() { Dock = DockStyle.Fill, DisplayMember = "Name" };
+    readonly ListBox backupList = new() { Dock = DockStyle.Fill, HorizontalScrollbar = true };
+    sealed record BackupItem(string FullName, string Description)
+    {
+        public override string ToString() => Path.GetFileName(FullName) + (string.IsNullOrEmpty(Description) ? "" : " · " + Description);
+    }
     readonly DataGridView mods = new() { Dock = DockStyle.Fill, ReadOnly = true, AllowUserToAddRows = false, AllowUserToDeleteRows = false, AutoGenerateColumns = false, RowHeadersVisible = false, SelectionMode = DataGridViewSelectionMode.FullRowSelect, AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells, BackgroundColor = Color.White, BorderStyle = BorderStyle.None };
     readonly Label status = new() { Dock = DockStyle.Bottom, Height = 36, Padding = new Padding(10), Text = L.T("Bereit") };
     readonly TabControl tabs = new() { Dock = DockStyle.Fill };
@@ -65,11 +69,23 @@ public sealed partial class MainForm : Form
         var settingsTab = new TabPage(L.T("Einstellungen")) { Padding = new Padding(16) };
         tabs.TabPages.AddRange([backupTab, modTab, settingsTab]);
         CreateGroupsPage();
-        var backupActions = new FlowLayoutPanel { Dock = DockStyle.Top, Height = 52 };
-        backupActions.Controls.Add(Button(L.T("Backup erstellen"), async () => await Run(L.T("Backup wird erstellt …"), () => { var path = Manager.Backup(settings); return L.T("Backup erstellt: ") + Path.GetFileName(path); })));
+        var backupActions = new FlowLayoutPanel { Dock = DockStyle.Top, AutoSize = true };
+        backupActions.Controls.Add(Button(L.T("Backup erstellen"), async () =>
+        {
+            var description = EditBackupDescription("");
+            if (description == null) return;
+            await Run(L.T("Backup wird erstellt …"), () => { var path = Manager.Backup(settings, description); return L.T("Backup erstellt: ") + Path.GetFileName(path); });
+        }));
+        backupActions.Controls.Add(Button(L.T("Beschreibung ändern"), async () =>
+        {
+            if (backupList.SelectedItem is not BackupItem selected) { MessageBox.Show(this, L.T("Bitte ein Backup auswählen.")); return; }
+            var description = EditBackupDescription(selected.Description);
+            if (description == null) return;
+            await Run(L.T("Speichern …"), () => { Manager.SetBackupDescription(settings, selected.FullName, description); return L.T("Beschreibung gespeichert."); });
+        }));
         backupActions.Controls.Add(Button(L.T("Auswahl wiederherstellen"), async () =>
         {
-            if (backupList.SelectedItem is not DirectoryInfo selected) { MessageBox.Show(this, L.T("Bitte ein Backup auswählen.")); return; }
+            if (backupList.SelectedItem is not BackupItem selected) { MessageBox.Show(this, L.T("Bitte ein Backup auswählen.")); return; }
             if (MessageBox.Show(this, L.T("Alle aktuellen Spielstände werden ersetzt. Vorher wird automatisch ein Sicherheitsbackup erstellt. Fortfahren?"), L.T("Backup wiederherstellen"), MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
             await Run(L.T("Spielstände werden wiederhergestellt …"), () => { Manager.Restore(settings, selected.FullName); return L.T("Wiederherstellung abgeschlossen."); });
         }));
@@ -79,7 +95,8 @@ public sealed partial class MainForm : Form
         mods.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = L.T("Name"), DataPropertyName = "Name", Width = 220 });
         mods.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = L.T("Version"), DataPropertyName = "Version", Width = 90 });
         mods.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = L.T("Beschreibung"), DataPropertyName = "Description", AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill, DefaultCellStyle = new DataGridViewCellStyle { WrapMode = DataGridViewTriState.True } });
-        mods.Columns.Add(new DataGridViewLinkColumn { HeaderText = L.T("Webseite"), DataPropertyName = "Website", Width = 190 });
+        mods.Columns.Add(new DataGridViewLinkColumn { HeaderText = L.T("Webseite"), DataPropertyName = "Website", Width = 190,
+            LinkColor = Color.FromArgb(0, 80, 160), ActiveLinkColor = Color.FromArgb(160, 40, 0), VisitedLinkColor = Color.FromArgb(100, 40, 140) });
         mods.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = L.T("Status"), Name = "State", Width = 95, DefaultCellStyle = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleCenter } });
         mods.DefaultCellStyle.BackColor = Color.White;
         mods.DefaultCellStyle.ForeColor = Color.Black;
@@ -170,6 +187,20 @@ public sealed partial class MainForm : Form
         CaptureTranslations(this);
         foreach (DataGridViewColumn column in mods.Columns)
             if (L.KeyFor(column.HeaderText) is string key) localizedColumns[column] = key;
+    }
+    string? EditBackupDescription(string current)
+    {
+        using var dialog = new Form { Text = L.T("Backup-Beschreibung"), ClientSize = new Size(520, 155), FormBorderStyle = FormBorderStyle.FixedDialog, StartPosition = FormStartPosition.CenterParent, MaximizeBox = false, MinimizeBox = false, Font = Font };
+        var label = new Label { Text = L.T("Name / Beschreibung (optional)"), AutoSize = true, Location = new Point(16, 16) };
+        var input = new TextBox { Text = current, Location = new Point(16, 46), Width = 488 };
+        var actions = new FlowLayoutPanel { Dock = DockStyle.Bottom, Height = 52, FlowDirection = FlowDirection.RightToLeft, Padding = new Padding(8) };
+        var cancel = new Button { Text = L.T("Abbrechen"), AutoSize = true, DialogResult = DialogResult.Cancel };
+        var ok = new Button { Text = L.T("Speichern"), AutoSize = true, DialogResult = DialogResult.OK };
+        actions.Controls.Add(cancel); actions.Controls.Add(ok);
+        dialog.Controls.Add(label); dialog.Controls.Add(input); dialog.Controls.Add(actions);
+        dialog.AcceptButton = ok; dialog.CancelButton = cancel;
+        dialog.Shown += (_, _) => { input.Focus(); input.SelectAll(); };
+        return dialog.ShowDialog(this) == DialogResult.OK ? input.Text.Trim() : null;
     }
     void CaptureTranslations(Control control)
     {
@@ -273,7 +304,13 @@ public sealed partial class MainForm : Form
     }
     void RefreshLists()
     {
-        try { backupList.DataSource = Manager.Backups(settings).Select(p => new DirectoryInfo(p)).ToList(); }
+        try
+        {
+            var selected = (backupList.SelectedItem as BackupItem)?.FullName;
+            backupList.DataSource = Manager.Backups(settings).Select(p => new BackupItem(p, Manager.BackupDescription(p))).ToList();
+            if (selected != null)
+                backupList.SelectedItem = backupList.Items.Cast<BackupItem>().FirstOrDefault(b => b.FullName == selected);
+        }
         catch (Exception e) { backupList.DataSource = null; ShowError(e); }
         try { BindSortedMods(Manager.Mods(settings.GamePath)); }
         catch (Exception e) { ShowError(e); }

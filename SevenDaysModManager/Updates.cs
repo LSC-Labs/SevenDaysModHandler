@@ -9,7 +9,7 @@ public static class Updates
 {
     public const string ReleasesUrl = "https://github.com/LSC-Labs/SevenDaysModHandler/releases";
     public static Version CurrentVersion => typeof(Updates).Assembly.GetName().Version ?? new Version(1, 0, 0, 0);
-    public static string VersionText => CurrentVersion.ToString(3);
+    public static string VersionText => CurrentVersion.ToString(4);
     public static Version ParseVersion(string tag)
     {
         if (!Version.TryParse(tag.Trim().TrimStart('v', 'V'), out var version))

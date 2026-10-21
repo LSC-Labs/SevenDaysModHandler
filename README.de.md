@@ -8,7 +8,7 @@ Eine mehrsprachige Windows-Anwendung zum Sichern von Spielständen und Verwalten
 
 Die aktuelle Anwendung steht unter **[GitHub Releases](https://github.com/LSC-Labs/SevenDaysModHandler/releases/latest)** bereit.
 
-1. `SevenDaysModHandler-1.1.0.0-win-x64.zip` herunterladen.
+1. `SevenDaysModHandler-1.2.0.0-win-x64.zip` herunterladen.
 2. Das ZIP vollständig in einen eigenen Ordner entpacken.
 3. `SevenDaysModManager.exe` starten.
 4. Unter **Einstellungen** Spiel-, Spielstand- und Backupordner prüfen und speichern.
@@ -77,7 +77,7 @@ cd SevenDaysModHandler
 Eigenständigen Windows-x64-Download mit enthaltener Laufzeit bauen:
 
 ```powershell
-dotnet publish SevenDaysModManager -c Release -r win-x64 --self-contained true -p:Version=1.1.0.0 -o artifacts/release/win-x64
+dotnet publish SevenDaysModManager -c Release -r win-x64 --self-contained true -p:Version=1.2.0.0 -o artifacts/release/win-x64
 ```
 
 ## Tests und Projektstruktur

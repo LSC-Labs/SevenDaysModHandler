@@ -8,7 +8,7 @@ A multilingual Windows application for backing up saves and managing mods for **
 
 The latest application is available from **[GitHub Releases](https://github.com/LSC-Labs/SevenDaysModHandler/releases/latest)**.
 
-1. Download `SevenDaysModHandler-1.1.0.0-win-x64.zip`.
+1. Download `SevenDaysModHandler-1.2.0.0-win-x64.zip`.
 2. Extract the entire ZIP into its own folder.
 3. Run `SevenDaysModManager.exe`.
 4. In **Settings**, check and save the game, saves, and backup folders.
@@ -77,7 +77,7 @@ cd SevenDaysModHandler
 To build a standalone Windows x64 download with the runtime included:
 
 ```powershell
-dotnet publish SevenDaysModManager -c Release -r win-x64 --self-contained true -p:Version=1.1.0.0 -o artifacts/release/win-x64
+dotnet publish SevenDaysModManager -c Release -r win-x64 --self-contained true -p:Version=1.2.0.0 -o artifacts/release/win-x64
 ```
 
 ## Tests and project structure
